@@ -6,6 +6,7 @@ export interface Translation {
     skills: string;
     projects: string;
     testimonials: string;
+    education: string;
     contact: string;
   };
   
@@ -181,6 +182,44 @@ export interface Translation {
     };
   };
   
+  // Education Section
+  education: {
+    badge: string;
+    title: string;
+    description: string;
+    diploma: {
+      title: string;
+      institution: string;
+      field: string;
+      period: string;
+    };
+    internships: {
+      seall: {
+        title: string;
+        company: string;
+        duration: string;
+        description: string;
+      };
+      talabe: {
+        title: string;
+        company: string;
+        duration: string;
+        description: string;
+      };
+    };
+    training: {
+      title: string;
+      duration: string;
+      description: string;
+    };
+    current: {
+      title: string;
+      company: string;
+      period: string;
+      description: string;
+    };
+  };
+  
   // Contact Section
   contact: {
     badge: string;
@@ -265,6 +304,7 @@ export const translations: Record<string, Translation> = {
       skills: "Skills",
       projects: "Projects",
       testimonials: "Testimonials",
+      education: "Education",
       contact: "Contact"
     },
     hero: {
@@ -295,7 +335,7 @@ export const translations: Record<string, Translation> = {
       },
       journey: {
         title: "My Journey",
-        description: "I'm a passionate Full-Stack Developer with over 1.5 years of experience building modern applications. I specialize in both Frontend & Backend development, handling everything from UI/UX design to deployment.",
+        description: "I'm a passionate Full-Stack Developer with over 2 years of experience building modern applications. I specialize in both Frontend & Backend development, handling everything from UI/UX design to deployment.",
         currentJob: {
           title: "Web & App Developer",
           company: "NoteEasy (Talabe Store)",
@@ -426,6 +466,42 @@ export const translations: Record<string, Translation> = {
         }
       }
     },
+    education: {
+      badge: "Education & Training",
+      title: "My Educational Journey",
+      description: "Academic achievements, internships, and continuous learning that shaped my career",
+      diploma: {
+        title: "Technical Diploma",
+        institution: "Technical Institute",
+        field: "App & Web Development",
+        period: "Completed"
+      },
+      internships: {
+        seall: {
+          title: "End of Study Internship",
+          company: "Nationals of SEALL",
+          duration: "6 Months",
+          description: "Completed end-of-study project and gained hands-on experience in real-world software development"
+        },
+        talabe: {
+          title: "Internship",
+          company: "Talabe Store",
+          duration: "5 Months",
+          description: "Developed and maintained store management systems, gained practical experience in e-commerce solutions"
+        }
+      },
+      training: {
+        title: "Professional Training",
+        duration: "4 Months",
+        description: "Intensive training program covering modern web and mobile development technologies"
+      },
+      current: {
+        title: "Web & App Developer",
+        company: "Talabe Store (NoteEasy)",
+        period: "June 2024 - Present",
+        description: "Developing and maintaining internal tools and customer-facing applications. Also working as a freelance developer."
+      }
+    },
     contact: {
       badge: "Get In Touch",
       title: "Let's Create Something Amazing",
@@ -480,7 +556,7 @@ export const translations: Record<string, Translation> = {
       }
     },
     footer: {
-      copyright: "© 2024 Abdelhadi boudjemline. Crafted with ❤️ using Next.js & TailwindCSS.",
+      copyright: "© {year} Abdelhadi boudjemline. Crafted with ❤️",
       tech: "Next.js & TailwindCSS",
       social: {
         github: "GitHub",
@@ -503,6 +579,7 @@ export const translations: Record<string, Translation> = {
       skills: "Compétences",
       projects: "Projets",
       testimonials: "Témoignages",
+      education: "Éducation",
       contact: "Contact"
     },
     hero: {
@@ -533,7 +610,7 @@ export const translations: Record<string, Translation> = {
       },
       journey: {
         title: "Mon Parcours",
-        description: "Je suis un développeur Full-Stack passionné avec plus de 1,5 ans d'expérience dans la création d'applications modernes. Je me spécialise dans le développement Frontend et Backend, gérant tout de la conception UI/UX au déploiement.",
+        description: "Je suis un développeur Full-Stack passionné avec plus de 2 ans d'expérience dans la création d'applications modernes. Je me spécialise dans le développement Frontend et Backend, gérant tout de la conception UI/UX au déploiement.",
         currentJob: {
           title: "Développeur Web & App",
           company: "NoteEasy (Talabe Store)",
@@ -664,6 +741,42 @@ export const translations: Record<string, Translation> = {
         }
       }
     },
+    education: {
+      badge: "Éducation & Formation",
+      title: "Mon Parcours Éducatif",
+      description: "Réalisations académiques, stages et apprentissage continu qui ont façonné ma carrière",
+      diploma: {
+        title: "Diplôme Technique",
+        institution: "Institut Technique",
+        field: "Développement d'Applications & Web",
+        period: "Terminé"
+      },
+      internships: {
+        seall: {
+          title: "Stage de Fin d'Études",
+          company: "Nationals of SEALL",
+          duration: "6 Mois",
+          description: "Projet de fin d'études complété et expérience pratique acquise en développement logiciel réel"
+        },
+        talabe: {
+          title: "Stage",
+          company: "Talabe Store",
+          duration: "5 Mois",
+          description: "Développement et maintenance de systèmes de gestion de magasin, expérience pratique dans les solutions e-commerce"
+        }
+      },
+      training: {
+        title: "Formation Professionnelle",
+        duration: "4 Mois",
+        description: "Programme de formation intensif couvrant les technologies modernes de développement web et mobile"
+      },
+      current: {
+        title: "Développeur Web & App",
+        company: "Talabe Store (NoteEasy)",
+        period: "Juin 2024 - Présent",
+        description: "Développement et maintenance d'outils internes et d'applications client. Travaille également en tant que développeur indépendant."
+      }
+    },
     contact: {
       badge: "Prendre Contact",
       title: "Créons Quelque Chose d'Incroyable",
@@ -718,7 +831,7 @@ export const translations: Record<string, Translation> = {
       }
     },
     footer: {
-      copyright: "© 2024 Abdelhadi boudjemline. Créé avec ❤️ en utilisant Next.js et TailwindCSS.",
+      copyright: "© {year} Abdelhadi boudjemline. Créé avec ❤️",
       tech: "Next.js et TailwindCSS",
       social: {
         github: "GitHub",
@@ -741,6 +854,7 @@ export const translations: Record<string, Translation> = {
       skills: "المهارات",
       projects: "المشاريع",
       testimonials: "الشهادات",
+      education: "التعليم",
       contact: "التواصل"
     },
     hero: {
@@ -771,7 +885,7 @@ export const translations: Record<string, Translation> = {
       },
       journey: {
         title: "رحلتي",
-        description: "أنا مطور ويب متكامل شغوف بأكثر من 1.5 سنة من الخبرة في بناء التطبيقات الحديثة. أتخصص في تطوير الواجهة الأمامية والخلفية، أتعامل مع كل شيء من تصميم UI/UX إلى النشر.",
+        description: "أنا مطور ويب متكامل شغوف بأكثر من سنتين من الخبرة في بناء التطبيقات الحديثة. أتخصص في تطوير الواجهة الأمامية والخلفية، أتعامل مع كل شيء من تصميم UI/UX إلى النشر.",
         currentJob: {
           title: "مطور ويب وتطبيقات",
           company: "NoteEasy (متجر طلابة)",
@@ -902,6 +1016,42 @@ export const translations: Record<string, Translation> = {
         }
       }
     },
+    education: {
+      badge: "التعليم والتدريب",
+      title: "رحلتي التعليمية",
+      description: "الإنجازات الأكاديمية والتدريبات والتعلم المستمر الذي شكل مسيرتي المهنية",
+      diploma: {
+        title: "دبلوم تقني",
+        institution: "معهد تقني",
+        field: "تطوير التطبيقات والويب",
+        period: "مكتمل"
+      },
+      internships: {
+        seall: {
+          title: "تدريب نهاية الدراسة",
+          company: "Nationals of SEALL",
+          duration: "6 أشهر",
+          description: "إكمال مشروع نهاية الدراسة واكتساب خبرة عملية في تطوير البرمجيات في العالم الحقيقي"
+        },
+        talabe: {
+          title: "تدريب",
+          company: "Talabe Store",
+          duration: "5 أشهر",
+          description: "تطوير وصيانة أنظمة إدارة المتاجر، اكتساب خبرة عملية في حلول التجارة الإلكترونية"
+        }
+      },
+      training: {
+        title: "تدريب مهني",
+        duration: "4 أشهر",
+        description: "برنامج تدريبي مكثف يغطي تقنيات تطوير الويب والجوال الحديثة"
+      },
+      current: {
+        title: "مطور ويب وتطبيقات",
+        company: "Talabe Store (NoteEasy)",
+        period: "يونيو 2024 - الحاضر",
+        description: "تطوير وصيانة الأدوات الداخلية وتطبيقات العملاء. يعمل أيضاً كمطور مستقل."
+      }
+    },
     contact: {
       badge: "تواصل معي",
       title: "دعونا ننشئ شيئاً مذهلاً",
@@ -956,7 +1106,7 @@ export const translations: Record<string, Translation> = {
       }
     },
     footer: {
-      copyright: "© 2024 عبد الهادي بوجملين. صنع بـ ❤️ باستخدام Next.js وTailwindCSS.",
+      copyright: "© {year} عبد الهادي بوجملين. صنع بـ ❤️",
       tech: "Next.js وTailwindCSS",
       social: {
         github: "GitHub",

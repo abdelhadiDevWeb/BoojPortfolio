@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import emailjs from '@emailjs/browser';
 import { 
   Globe, 
   Smartphone, 
@@ -24,7 +25,10 @@ import {
   Wrench,
   Clock,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  GraduationCap,
+  Award,
+  BookOpen
 } from "lucide-react";
 import { Menu, X } from "lucide-react";
 import { LanguageProvider, useLanguage } from '../lib/LanguageContext';
@@ -38,6 +42,14 @@ function HomeContent() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    projectDetails: ''
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<'success' | 'error'>('success');
 
   const skills = {
     frontend: [
@@ -205,6 +217,60 @@ function HomeContent() {
     setMounted(true);
   }, []);
 
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('sending');
+
+    // Validate form
+    if (!formData.name || !formData.email || !formData.projectDetails) {
+      setFormStatus('error');
+      setModalType('error');
+      setShowModal(true);
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setFormStatus('error');
+      setModalType('error');
+      setShowModal(true);
+      return;
+    }
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.projectDetails,
+        to_name: 'Abdelhadi',
+      };
+
+      // Send email using EmailJS
+      // You need to:
+      // 1. Create a template in EmailJS dashboard
+      // 2. Replace 'YOUR_TEMPLATE_ID' with your actual template ID
+      // 3. Get your public key from EmailJS dashboard and add it as 4th parameter
+      await emailjs.send(
+        'service_8mb6nnq',
+        'template_py015sr', // Replace with your EmailJS template ID
+        templateParams,
+        'XHO0t-Tvb5zz8bdNv' // Get this from EmailJS dashboard: https://dashboard.emailjs.com/admin
+      );
+
+      setFormStatus('success');
+      setFormData({ name: '', email: '', projectDetails: '' });
+      setModalType('success');
+      setShowModal(true);
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      setFormStatus('error');
+      setModalType('error');
+      setShowModal(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black relative overflow-hidden cursor-none">
       {mounted && (
@@ -339,8 +405,8 @@ function HomeContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center">
             {/* Logo/Name */}
-            <h1 className="text-xl sm:text-2xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500" >
-              <span className="hidden sm:inline">&lt;Abdelahdi Boudjemline /&gt;</span>
+            <h1 className="text-xl sm:text-2xl lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100 animate-header-name" >
+              <span className="hidden sm:inline">&lt;Abdelhadi Boudjemline /&gt;</span>
               <span className="sm:hidden">&lt;AB/&gt;</span>
             </h1>
             
@@ -352,6 +418,7 @@ function HomeContent() {
                 { key: "skills", label: t.nav.skills },
                 { key: "projects", label: t.nav.projects },
                 { key: "testimonials", label: t.nav.testimonials },
+                { key: "education", label: t.nav.education },
                 { key: "contact", label: t.nav.contact }
               ].map((item, index) => (
                 <a 
@@ -388,6 +455,7 @@ function HomeContent() {
                 { key: "skills", label: t.nav.skills },
                 { key: "projects", label: t.nav.projects },
                 { key: "testimonials", label: t.nav.testimonials },
+                { key: "education", label: t.nav.education },
                 { key: "contact", label: t.nav.contact }
               ].map((item, index) => (
                 <a 
@@ -405,11 +473,11 @@ function HomeContent() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen relative z-10 flex items-center justify-center px-4 sm:px-6 pt-20 sm:pt-24">
+      <section id="home" className="min-h-screen relative z-10 flex items-start justify-center px-4 sm:px-6 pt-4 sm:pt-8">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-16 lg:gap-32 xl:gap-48 items-center">
           <div className={`space-y-6 sm:space-y-8 lg:space-y-12 text-center lg:text-left ${isVisible ? 'animate-slide-in-left' : 'opacity-0'}`}>
             <div className="space-y-6">
-              <div className="overflow-hidden">
+              <div className="overflow-hidden mt-4 sm:mt-6">
                 <p className="text-aqua-400 text-xl animate-text-reveal-up inline-block" style={{ animationDelay: '0.2s' }}>
                   {t.hero.greeting}
                 </p>
@@ -418,7 +486,7 @@ function HomeContent() {
               <div className="space-y-2 sm:space-y-4">
                 <div className="overflow-hidden">
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-400 inline-block">
+                    <span className="block w-full text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-400 sm:w-auto animate-title-reveal" style={{ animationDelay: '0.3s' }}>
                        {t.personal.name}
                     </span>
                   </h1>
@@ -426,8 +494,11 @@ function HomeContent() {
                 
                 <div className="overflow-hidden">
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
-                    <span className="text-white animate-write-erase inline-block" style={{ animationDelay: '1.5s' }}>
-                       {t.personal.surname}
+                    <span
+                      className="inline-block min-w-[15ch] text-white animate-write-erase"
+                      style={{ animationDelay: '.5s' }}
+                    >
+                    {t.personal.surname}
                     </span>
                   </h1>
                 </div>
@@ -475,11 +546,11 @@ function HomeContent() {
 
             <div className={`grid grid-cols-3 gap-4 sm:flex sm:items-center ${isRTL ? 'sm:space-x-reverse' : ''} sm:space-x-6 lg:space-x-8 animate-fade-in-up justify-center lg:justify-start`} style={{ animationDelay: '5s' }}>
               <div className="text-center">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">1.5+</div>
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">+ 2</div>
                 <div className="text-white/60 text-xs sm:text-sm">{t.hero.stats.experience}</div>
               </div>
               <div className="text-center">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">50+</div>
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">17</div>
                 <div className="text-white/60 text-xs sm:text-sm">{t.hero.stats.projects}</div>
               </div>
               <div className="text-center">
@@ -489,82 +560,125 @@ function HomeContent() {
             </div>
           </div>
 
-          <div className={`relative order-first lg:order-last ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto group">
-              {/* Enhanced geometric background elements */}
+          <div className={`relative order-first lg:order-last mt-8 sm:mt-12 lg:mt-16 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
+            <div className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto group">
+              {/* Orbiting decorative elements */}
               <div className="absolute inset-0">
-                <div className="absolute top-4 sm:top-6 lg:top-8 left-4 sm:left-6 lg:left-8 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 border-2 border-aqua-400/30 rounded-2xl animate-floating-rotate hover:border-cyan-400/50 transition-all duration-500"></div>
-                <div className="absolute bottom-8 sm:bottom-10 lg:bottom-12 right-2 sm:right-3 lg:right-4 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-aqua-400/20 to-teal-500/20 rounded-full animate-morphing-glow"></div>
-                <div className="absolute top-8 sm:top-12 lg:top-16 right-6 sm:right-10 lg:right-12 w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-aqua-500 rounded-full animate-corner-pulse opacity-60"></div>
-                <div className="absolute bottom-12 sm:bottom-16 lg:bottom-20 left-3 sm:left-4 lg:left-6 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border border-teal-400/40 rounded-lg animate-floating-rotate" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute top-0 left-1/2 w-3 h-3 bg-gradient-to-r from-aqua-400 to-cyan-400 rounded-full animate-orbit" style={{ animationDuration: '8s', transformOrigin: '50% 400px' }}></div>
+                <div className="absolute top-1/2 right-0 w-2 h-2 bg-gradient-to-r from-teal-400 to-aqua-400 rounded-full animate-orbit" style={{ animationDuration: '10s', animationDelay: '1s', transformOrigin: '-200px 50%' }}></div>
+                <div className="absolute bottom-0 left-1/2 w-2.5 h-2.5 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full animate-orbit" style={{ animationDuration: '12s', animationDelay: '2s', transformOrigin: '50% -200px' }}></div>
+                <div className="absolute top-1/2 left-0 w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-orbit" style={{ animationDuration: '9s', animationDelay: '0.5s', transformOrigin: '400px 50%' }}></div>
               </div>
               
-              {/* Enhanced floating decorative elements */}
-              <div className="absolute -top-3 sm:-top-4 lg:-top-6 -left-3 sm:-left-4 lg:-left-6 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-aqua-400/30 to-teal-500/30 rounded-2xl animate-morphing-glow" style={{ animationDelay: '1s' }}></div>
-              <div className="absolute -bottom-4 sm:-bottom-6 lg:-bottom-8 -right-4 sm:-right-6 lg:-right-8 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-teal-400/20 to-cyan-500/20 rounded-3xl animate-morphing-glow" style={{ animationDelay: '3s' }}></div>
-              <div className="absolute top-8 sm:top-10 lg:top-12 -right-2 sm:-right-3 lg:-right-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-cyan-400/25 to-aqua-500/25 rounded-xl animate-floating-rotate" style={{ animationDelay: '1.5s' }}></div>
               
-              {/* Modern image container with advanced animations */}
-              <div className="relative w-full h-full transform transition-all duration-700 hover:scale-105 group-hover:rotate-1">
-                {/* Multiple animated glow rings */}
-                <div className="absolute inset-0 bg-gradient-to-br from-aqua-400 via-teal-500 to-cyan-500 rounded-3xl animate-pulse-glow opacity-40 blur-sm"></div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-purple-500 to-aqua-400 rounded-3xl opacity-20 blur-md animate-spin" style={{ animationDuration: '20s' }}></div>
+              {/* Rotating gradient border */}
+              <div className="absolute inset-0 rounded-full p-1 bg-transparent">
+                <div className="w-full h-full rounded-full bg-gradient-to-r from-aqua-400 via-teal-500 via-cyan-400 to-aqua-400 bg-[length:200%_200%] animate-gradient-rotate opacity-80"></div>
+              </div>
+              
+              {/* Main circular image container */}
+              <div className="relative w-full h-full rounded-full overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                {/* Animated background glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-aqua-400 via-teal-500 to-cyan-500 rounded-full animate-pulse-glow opacity-30 blur-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-purple-500 to-aqua-400 rounded-full opacity-20 blur-2xl animate-spin-slow"></div>
                 
-                {/* Main container with hover effects */}
-                <div className="relative w-full h-full bg-gradient-to-br from-aqua-400 via-teal-500 to-cyan-500 rounded-3xl p-1 hover:p-0.5 transition-all duration-500">
-                  {/* Enhanced glass effect */}
-                  <div className="absolute inset-1 bg-gradient-to-br from-white/10 to-transparent rounded-3xl group-hover:from-white/20 transition-all duration-500"></div>
+                
+                {/* Image */}
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+                  <Image
+                    src="/booj.jpg"
+                    alt="Abdelhadi boudjemline"
+                    width={400}
+                    height={400}
+                    className="object-cover w-full h-full rounded-full animate-image-breath hover:scale-110 filter hover:brightness-110 hover:contrast-110 transition-all duration-700"
+                    priority
+                  />
                   
-                  {/* Image container with modern effects */}
-                  <div className="relative w-full h-full rounded-3xl overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 transition-all duration-500">
-                    <Image
-                      src="/booj.jpg"
-                      alt="Abdelhadi boudjemline"
-                      width={400}
-                      height={400}
-                      className="object-cover w-full h-full animate-image-breath hover:scale-110 filter hover:brightness-110 hover:contrast-110 transition-all duration-700"
-                      priority
-                    />
-                    
-                    {/* Dynamic gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent hover:from-black/10 transition-all duration-500"></div>
-                    
-                    {/* Animated corner accents */}
-                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 border-l-2 border-t-2 border-aqua-400 rounded-tl-lg hover:border-cyan-300 hover:w-8 hover:h-8 sm:hover:w-10 sm:hover:h-10 transition-all duration-300"></div>
-                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 border-r-2 border-t-2 border-aqua-400 rounded-tr-lg hover:border-cyan-300 hover:w-8 hover:h-8 sm:hover:w-10 sm:hover:h-10 transition-all duration-300"></div>
-                    <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 border-l-2 border-b-2 border-aqua-400 rounded-bl-lg hover:border-cyan-300 hover:w-8 hover:h-8 sm:hover:w-10 sm:hover:h-10 transition-all duration-300"></div>
-                    <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 border-r-2 border-b-2 border-aqua-400 rounded-br-lg hover:border-cyan-300 hover:w-8 hover:h-8 sm:hover:w-10 sm:hover:h-10 transition-all duration-300"></div>
-                    
-                    {/* Modern scan line effect */}
-                    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent animate-pulse" style={{ animationDelay: '0s', animationDuration: '2s' }}></div>
-                    </div>
-                  </div>
+                  
+                  {/* Radial gradient overlay */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                </div>
+                
+                {/* Rotating border accent */}
+                <div className="absolute inset-0 rounded-full overflow-hidden">
+                  <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-aqua-400 border-r-teal-400 border-b-cyan-400 border-l-purple-400 animate-spin-slow opacity-60"></div>
                 </div>
               </div>
               
-              {/* Modern status indicator */}
-              <div className="absolute -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2">
-                <div className="glass border border-aqua-500/30 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl backdrop-blur-md">
-                  <div className="flex items-center space-x-3">
-                    <div className="relative">
-                      <div className="w-3 h-3 bg-aqua-400 rounded-full animate-pulse"></div>
-                      <div className="absolute inset-0 w-3 h-3 bg-aqua-400 rounded-full animate-ping opacity-30"></div>
-                    </div>
-                    <span className="text-white font-medium text-xs sm:text-sm">{t.hero.availability}</span>
-                  </div>
-                </div>
+              {/* Floating particles around circle */}
+              <div className="absolute inset-0 pointer-events-none">
+                {[...Array(8)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1.5 h-1.5 bg-aqua-400 rounded-full animate-float-particle opacity-60"
+                    style={{
+                      top: `${50 + 45 * Math.cos((i * Math.PI * 2) / 8)}%`,
+                      left: `${50 + 45 * Math.sin((i * Math.PI * 2) / 8)}%`,
+                      animationDelay: `${i * 0.2}s`,
+                      animationDuration: `${3 + i * 0.3}s`
+                    }}
+                  ></div>
+                ))}
               </div>
               
               {/* Floating code elements */}
               <div className="absolute top-0 left-12 sm:left-16 lg:left-20 opacity-60 hidden sm:block">
-                <div className="glass p-2 rounded-lg border border-aqua-500/20 floating">
+                <div className="glass p-2 rounded-full border border-aqua-500/20 floating">
                   <Code size={16} className="text-aqua-400" />
                 </div>
               </div>
               <div className="absolute bottom-6 sm:bottom-8 right-0 opacity-60 hidden sm:block">
-                <div className="glass p-2 rounded-lg border border-teal-500/20 floating">
+                <div className="glass p-2 rounded-full border border-teal-500/20 floating">
                   <Database size={16} className="text-teal-400" />
+                </div>
+              </div>
+            </div>
+            
+            {/* Code snippet display under image */}
+            <div className="mt-6 sm:mt-8 lg:mt-10 max-w-md mx-auto">
+              <div className="glass p-4 sm:p-5 lg:p-6 rounded-2xl border border-aqua-500/20 hover:border-aqua-500/40 transition-all duration-500 group/code">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
+                  </div>
+                  <span className="text-white/60 text-xs sm:text-sm font-mono">portfolio.tsx</span>
+                </div>
+                <div className="space-y-2 sm:space-y-2.5 font-mono text-xs sm:text-sm lg:text-base">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-aqua-400/60 flex-shrink-0">1</span>
+                    <code className="text-white/80">
+                      <span className="text-purple-400">const</span> <span className="text-aqua-400">developer</span> = {'{'}
+                    </code>
+                  </div>
+                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
+                    <span className="text-aqua-400/60 flex-shrink-0">2</span>
+                    <code className="text-white/80">
+                      <span className="text-cyan-400">name</span>: <span className="text-green-400">&apos;Abdelhadi&apos;</span>,
+                    </code>
+                  </div>
+                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
+                    <span className="text-aqua-400/60 flex-shrink-0">3</span>
+                    <code className="text-white/80">
+                      <span className="text-cyan-400">role</span>: <span className="text-green-400">&apos;Full Stack Developer&apos;</span>,
+                    </code>
+                  </div>
+                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
+                    <span className="text-aqua-400/60 flex-shrink-0">4</span>
+                    <code className="text-white/80">
+                      <span className="text-cyan-400">status</span>: <span className="text-yellow-400">&apos;Available&apos;</span>
+                    </code>
+                  </div>
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-aqua-400/60 flex-shrink-0">5</span>
+                    <code className="text-white/80">{'}'};</code>
+                  </div>
+                </div>
+                {/* Animated cursor */}
+                <div className="mt-3 sm:mt-4 flex items-center gap-2 sm:gap-3">
+                  <span className="text-aqua-400/60 font-mono text-xs sm:text-sm">6</span>
+                  <div className="w-2 h-4 sm:w-2.5 sm:h-5 bg-aqua-400 animate-blink"></div>
                 </div>
               </div>
             </div>
@@ -573,14 +687,19 @@ function HomeContent() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 sm:py-20 lg:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6">
+      <section id="about" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-aqua-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <User size={20} className="text-aqua-400" />
               <span className="text-aqua-300 font-medium">{t.about.badge}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-400 to-cyan-400 mb-6 sm:mb-8 animate-text-glow leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 via-teal-400 to-cyan-400 mb-6 sm:mb-8 leading-tight animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>
               {t.about.title}
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-4xl mx-auto leading-relaxed">
@@ -589,10 +708,10 @@ function HomeContent() {
           </div>
           
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 lg:mb-20 scroll-reveal">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 lg:mb-20 scroll-reveal relative z-10">
             {[
-              { number: "1.5+", label: t.about.stats.experience, color: "from-aqua-500 to-teal-500" },
-              { number: "50+", label: t.about.stats.projects, color: "from-cyan-500 to-aqua-500" },
+              { number: "+ 2", label: t.about.stats.experience, color: "from-aqua-500 to-teal-500" },
+              { number: "17", label: t.about.stats.projects, color: "from-cyan-500 to-aqua-500" },
               { number: "15+", label: t.about.stats.clients, color: "from-teal-500 to-cyan-500" },
               { number: "24/7", label: t.about.stats.support, color: "from-aqua-500 to-cyan-500" }
             ].map((stat, index) => (
@@ -605,40 +724,94 @@ function HomeContent() {
             ))}
           </div>
           
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative z-10">
             {/* Journey Card */}
             <div className="lg:col-span-2 scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 group">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-xl flex items-center justify-center">
+              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-aqua-500/20 relative overflow-hidden">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-aqua-500/5 via-transparent to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Header with enhanced animation */}
+                <div className="flex items-center gap-4 mb-6 relative z-10">
+                  <div className="w-12 h-12 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-aqua-500/30">
                     <Calendar size={24} className="text-white" />
                   </div>
-                  <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">{t.about.journey.title}</h3>
+                  <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100 group-hover:from-aqua-300 group-hover:to-teal-400 transition-all duration-500">{t.about.journey.title}</h3>
                 </div>
                 
-                <p className="text-white/80 mb-8 text-lg leading-relaxed">
+                <p className="text-white/80 mb-8 text-lg leading-relaxed relative z-10 group-hover:text-white/90 transition-colors duration-500">
                   {t.about.journey.description}
                 </p>
                 
-                {/* Experience Timeline */}
-                <div className="space-y-6">
-                  <div className="relative pl-8 border-l-2 border-gradient-to-b from-aqua-500 to-teal-500">
-                    <div className="absolute -left-2 top-0 w-4 h-4 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-full"></div>
-                    <div className="glass p-4 rounded-xl">
-                      <h4 className="font-bold text-white text-lg mb-1">{t.about.journey.currentJob.title}</h4>
-                      <p className="text-aqua-400 font-medium mb-2">{t.about.journey.currentJob.company}</p>
-                      <p className="text-white/70 text-sm mb-2">{t.about.journey.currentJob.period}</p>
-                      <p className="text-white/60 text-sm">{t.about.journey.currentJob.description}</p>
+                {/* Enhanced Experience Timeline */}
+                <div className="space-y-8 relative z-10">
+                  {/* Current Job Timeline Item */}
+                  <div className="relative pl-10 group/timeline">
+                    {/* Animated timeline line */}
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-aqua-500 via-teal-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    
+                    {/* Animated timeline dot */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-full shadow-lg shadow-aqua-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-aqua-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    
+                    {/* Content card with enhanced animations */}
+                    <div className="glass p-5 rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-aqua-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div>
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.title}</h4>
+                          <p className="text-aqua-400 font-medium mb-2 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.company}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300">
+                          <span className="text-aqua-300 text-xs font-semibold">Current</span>
+                        </div>
+                      </div>
+                      <p className="text-white/70 text-sm mb-2 flex items-center gap-2">
+                        <Calendar size={14} className="text-aqua-400" />
+                        {t.about.journey.currentJob.period}
+                      </p>
+                      <p className="text-white/60 text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.currentJob.description}</p>
                     </div>
                   </div>
                   
-                  <div className="relative pl-8 border-l-2 border-gradient-to-b from-teal-500 to-cyan-500">
-                    <div className="absolute -left-2 top-0 w-4 h-4 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full"></div>
-                    <div className="glass p-4 rounded-xl">
-                      <h4 className="font-bold text-white text-lg mb-1">{t.about.journey.freelance.title}</h4>
-                      <p className="text-teal-400 font-medium mb-2">{t.about.journey.freelance.company}</p>
-                      <p className="text-white/70 text-sm mb-2">{t.about.journey.freelance.period}</p>
-                      <p className="text-white/60 text-sm">{t.about.journey.freelance.description}</p>
+                  {/* Freelance Timeline Item */}
+                  <div className="relative pl-10 group/timeline">
+                    {/* Animated timeline line */}
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-500 via-cyan-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    
+                    {/* Animated timeline dot */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full shadow-lg shadow-teal-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-teal-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    
+                    {/* Content card with enhanced animations */}
+                    <div className="glass p-5 rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div>
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.title}</h4>
+                          <p className="text-teal-400 font-medium mb-2 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.company}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300">
+                          <span className="text-teal-300 text-xs font-semibold">Active</span>
+                        </div>
+                      </div>
+                      <p className="text-white/70 text-sm mb-2 flex items-center gap-2">
+                        <Calendar size={14} className="text-teal-400" />
+                        {t.about.journey.freelance.period}
+                      </p>
+                      <p className="text-white/60 text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.freelance.description}</p>
                     </div>
                   </div>
                 </div>
@@ -647,12 +820,12 @@ function HomeContent() {
 
             {/* Services Card */}
             <div className="scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-teal-500/30 transition-all duration-500 h-full">
+              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-teal-500/30 transition-all duration-500 h-full hover:scale-[1.02] hover:shadow-2xl hover:shadow-teal-500/20">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center">
                     <Settings size={24} className="text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500">{t.about.services.title}</h3>
+                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500 opacity-100">{t.about.services.title}</h3>
                 </div>
                 
                 <div className="space-y-6">
@@ -685,14 +858,19 @@ function HomeContent() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-16 sm:py-20 lg:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6">
+      <section id="skills" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-40 right-20 w-80 h-80 bg-cyan-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-40 left-20 w-72 h-72 bg-aqua-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <Code size={20} className="text-aqua-400" />
               <span className="text-aqua-300 font-medium">{t.skills.badge}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-600 mb-6 sm:mb-8 animate-text-glow leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-600 mb-6 sm:mb-8 leading-tight animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>
               {t.skills.title}
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-4xl mx-auto leading-relaxed">
@@ -703,10 +881,10 @@ function HomeContent() {
           {/* Skills Overview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 scroll-reveal">
             {[
-              { title: "Frontend", count: "6+", desc: t.skills.overview.frontend, color: "from-aqua-500 to-teal-500" },
-              { title: "Backend", count: "5+", desc: t.skills.overview.backend, color: "from-teal-500 to-cyan-500" },
+              { title: "Frontend", count: "10", desc: t.skills.overview.frontend, color: "from-aqua-500 to-teal-500" },
+              { title: "Backend", count: "7", desc: t.skills.overview.backend, color: "from-teal-500 to-cyan-500" },
               { title: "Tools", count: "4+", desc: t.skills.overview.tools, color: "from-cyan-500 to-aqua-500" },
-              { title: "Years", count: "1.5+", desc: t.skills.overview.years, color: "from-aqua-500 to-cyan-500" }
+              { title: "Years", count: "+ 2", desc: t.skills.overview.years, color: "from-aqua-500 to-cyan-500" }
             ].map((item, index) => (
               <div key={index} className="glass p-6 rounded-2xl text-center hover-3d group border border-white/10">
                 <div className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-2`}>
@@ -718,7 +896,7 @@ function HomeContent() {
             ))}
           </div>
           
-          <div id="skills-section" className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 scroll-reveal">
+          <div id="skills-section" className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 scroll-reveal relative z-10">
             {Object.entries(skills).map(([category, skillList], categoryIndex) => {
               const categoryConfig = {
                 frontend: { 
@@ -748,7 +926,7 @@ function HomeContent() {
               const IconComponent = config.icon;
               
               return (
-                <div key={category} className={`glass p-8 rounded-3xl border ${config.borderColor} hover:border-opacity-50 transition-all duration-500 group`}>
+                <div key={category} className={`glass p-8 rounded-3xl border ${config.borderColor} hover:border-opacity-50 transition-all duration-500 group hover:scale-[1.03] hover:shadow-2xl hover:shadow-cyan-500/20`}>
                   <div className="flex items-center gap-4 mb-8">
                     <div className={`w-12 h-12 ${config.iconBg} rounded-xl flex items-center justify-center`}>
                       <IconComponent size={24} className="text-white" />
@@ -812,18 +990,23 @@ function HomeContent() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-16 sm:py-20 lg:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 scroll-reveal">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-500 mb-6 animate-text-glow">{t.projects.title}</h2>
+      <section id="projects" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-20 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-pink-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-500 mb-6 animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>{t.projects.title}</h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-3xl mx-auto">
               {t.projects.description}
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 relative z-10">
             {projects.map((project, index) => (
-              <div key={index} className={`scroll-reveal glass rounded-2xl overflow-hidden hover-3d group ${project.featured ? 'lg:col-span-1' : ''}`}>
+              <div key={index} className={`scroll-reveal glass rounded-2xl overflow-hidden hover-3d group hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 ${project.featured ? 'lg:col-span-1' : ''}`}>
                 <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
           <Image
                     src={project.image}
@@ -913,17 +1096,22 @@ function HomeContent() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 sm:py-20 lg:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 scroll-reveal">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-500 mb-6 animate-text-glow">{t.testimonials.title}</h2>
+      <section id="testimonials" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-1/2 left-10 w-72 h-72 bg-yellow-500 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 right-10 w-80 h-80 bg-orange-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-500 mb-6 animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>{t.testimonials.title}</h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-3xl mx-auto">
               {t.testimonials.description}
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto">
-            <div className="glass p-6 sm:p-8 lg:p-12 rounded-3xl text-center scroll-reveal">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <div className="glass p-6 sm:p-8 lg:p-12 rounded-3xl text-center scroll-reveal hover:scale-[1.02] hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500">
               <div className="mb-8">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="text-yellow-400 text-2xl">★</span>
@@ -966,15 +1154,207 @@ function HomeContent() {
         </div>
       </section>
 
+      {/* Education Section */}
+      <section id="education" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-20 left-20 w-80 h-80 bg-indigo-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/20 to-blue-500/20 backdrop-blur-sm border border-indigo-500/30 rounded-full px-6 py-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <GraduationCap size={20} className="text-indigo-400" />
+              <span className="text-indigo-300 font-medium">{t.education.badge}</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-blue-500 to-cyan-400 mb-6 sm:mb-8 leading-tight animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>
+              {t.education.title}
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-4xl mx-auto leading-relaxed">
+              {t.education.description}
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 relative z-10">
+            {/* Education Timeline */}
+            <div className="scroll-reveal">
+              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-indigo-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-500/20 relative overflow-hidden">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-8 relative z-10">
+                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-indigo-500/30">
+                    <BookOpen size={24} className="text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-500 opacity-100">Education & Training</h3>
+                </div>
+                
+                {/* Education Timeline */}
+                <div className="space-y-6 relative z-10">
+                  {/* Diploma */}
+                  <div className="relative pl-10 group/timeline">
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-blue-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-full shadow-lg shadow-indigo-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-indigo-500/70 transition-all duration-500">
+                      <Award size={14} className="text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" />
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-indigo-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    <div className="glass p-5 rounded-xl border border-indigo-500/20 group-hover/timeline:border-indigo-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-indigo-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.title}</h4>
+                          <p className="text-indigo-400 font-medium mb-1 group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.field}</p>
+                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.diploma.institution}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-indigo-500/20 rounded-full border border-indigo-500/30 group-hover/timeline:bg-indigo-500/30 group-hover/timeline:border-indigo-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-indigo-300 text-xs font-semibold whitespace-nowrap">{t.education.diploma.period}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Training */}
+                  <div className="relative pl-10 group/timeline">
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-cyan-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full shadow-lg shadow-blue-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-blue-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-blue-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    <div className="glass p-5 rounded-xl border border-blue-500/20 group-hover/timeline:border-blue-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-blue-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-blue-300 transition-colors duration-300">{t.education.training.title}</h4>
+                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.training.description}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30 group-hover/timeline:bg-blue-500/30 group-hover/timeline:border-blue-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-blue-300 text-xs font-semibold whitespace-nowrap">{t.education.training.duration}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Internships & Experience */}
+            <div className="scroll-reveal">
+              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-blue-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20 relative overflow-hidden">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-8 relative z-10">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-blue-500/30">
+                    <Briefcase size={24} className="text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500 opacity-100">Internships & Experience</h3>
+                </div>
+                
+                {/* Internships Timeline */}
+                <div className="space-y-6 relative z-10">
+                  {/* Current Job */}
+                  <div className="relative pl-10 group/timeline">
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-teal-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full shadow-lg shadow-cyan-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-cyan-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-cyan-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    <div className="glass p-5 rounded-xl border border-cyan-500/20 group-hover/timeline:border-cyan-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-cyan-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.title}</h4>
+                          <p className="text-cyan-400 font-medium mb-1 group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.company}</p>
+                          <p className="text-white/60 text-sm mb-2 group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.current.description}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30 group-hover/timeline:bg-cyan-500/30 group-hover/timeline:border-cyan-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-cyan-300 text-xs font-semibold whitespace-nowrap">Current</span>
+                        </div>
+                      </div>
+                      <p className="text-white/70 text-sm flex items-center gap-2 group-hover/timeline:text-white/80 transition-colors duration-300">
+                        <Calendar size={14} className="text-cyan-400" />
+                        {t.education.current.period}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Talabe Internship */}
+                  <div className="relative pl-10 group/timeline">
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-500 via-aqua-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-teal-500 to-aqua-600 rounded-full shadow-lg shadow-teal-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-30"></div>
+                    </div>
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-teal-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    <div className="glass p-5 rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.title}</h4>
+                          <p className="text-teal-400 font-medium mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.company}</p>
+                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.talabe.description}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-teal-300 text-xs font-semibold whitespace-nowrap">{t.education.internships.talabe.duration}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* SEALL Internship */}
+                  <div className="relative pl-10 group/timeline">
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-aqua-500 via-indigo-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
+                    <div className="absolute -left-3 top-0 w-6 h-6 bg-gradient-to-r from-aqua-500 to-indigo-600 rounded-full shadow-lg shadow-aqua-500/50 group-hover/timeline:scale-125 group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/70 transition-all duration-500">
+                      <div className="absolute inset-1 bg-white rounded-full opacity-0 group-hover/timeline:opacity-30 transition-opacity duration-500"></div>
+                    </div>
+                    {/* Pulsing ring effect */}
+                    <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-aqua-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
+                    <div className="glass p-5 rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-aqua-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.title}</h4>
+                          <p className="text-aqua-400 font-medium mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.company}</p>
+                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.seall.description}</p>
+                        </div>
+                        <div className="px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-aqua-300 text-xs font-semibold whitespace-nowrap">{t.education.internships.seall.duration}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 lg:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6">
+      <section id="contact" className="py-16 sm:py-20 lg:py-32 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-teal-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-20 w-80 h-80 bg-aqua-500 rounded-full blur-3xl"></div>
+          </div>
+          <div className="text-center mb-20 scroll-reveal relative z-10">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-aqua-500/20 to-teal-500/20 backdrop-blur-sm border border-aqua-500/30 rounded-full px-6 py-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <Mail size={20} className="text-aqua-400" />
               <span className="text-aqua-300 font-medium">{t.contact.badge}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-600 mb-6 sm:mb-8 animate-text-glow leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-600 mb-6 sm:mb-8 leading-tight animate-title-reveal opacity-100" style={{ animationDelay: '0.2s' }}>
               {t.contact.title}
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-4xl mx-auto leading-relaxed">
@@ -983,7 +1363,7 @@ function HomeContent() {
           </div>
           
           {/* Contact Methods Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 scroll-reveal">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 scroll-reveal relative z-10">
             {[
               { 
                 icon: Mail, 
@@ -997,8 +1377,8 @@ function HomeContent() {
               { 
                 icon: Phone, 
                 label: t.contact.methods.phone, 
-                value: "0799436171", 
-                href: "tel:0799436171", 
+                value: "0562232628", 
+                href: "tel:0562232628", 
                 color: "text-teal-400",
                 gradient: "from-teal-500 to-cyan-500",
                 bg: "bg-teal-500/20"
@@ -1042,23 +1422,26 @@ function HomeContent() {
             })}
           </div>
           
-          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 relative z-10">
             {/* Contact Form */}
-            <div className="lg:col-span-3 scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-aqua-500/30 transition-all duration-500">
+            <div id="contact-form" className="lg:col-span-3 scroll-reveal">
+              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-aqua-500/30 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-aqua-500/20">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-xl flex items-center justify-center">
                     <Mail size={24} className="text-white" />
                   </div>
-                  <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">{t.contact.form.title}</h3>
+                  <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100">{t.contact.form.title}</h3>
                 </div>
                 
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <label className="text-white/70 text-sm font-medium">{t.contact.form.name}</label>
                       <input
                         type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder={t.contact.form.placeholders.name}
                         className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
                       />
@@ -1067,6 +1450,9 @@ function HomeContent() {
                       <label className="text-white/70 text-sm font-medium">{t.contact.form.email}</label>
                       <input
                         type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder={t.contact.form.placeholders.email}
                         className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
                       />
@@ -1074,20 +1460,12 @@ function HomeContent() {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-white/70 text-sm font-medium">{t.contact.form.projectType}</label>
-                    <select className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300">
-                      <option value="">{t.contact.form.projectTypeOptions.select}</option>
-                      <option value="web">{t.contact.form.projectTypeOptions.web}</option>
-                      <option value="mobile">{t.contact.form.projectTypeOptions.mobile}</option>
-                      <option value="fullstack">{t.contact.form.projectTypeOptions.fullstack}</option>
-                      <option value="other">{t.contact.form.projectTypeOptions.other}</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
                     <label className="text-white/70 text-sm font-medium">{t.contact.form.projectDetails}</label>
                     <textarea
                       rows={6}
+                      required
+                      value={formData.projectDetails}
+                      onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
                       placeholder={t.contact.form.placeholders.details}
                       className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:bg-white/10 transition-all duration-300 resize-none"
                     ></textarea>
@@ -1095,12 +1473,24 @@ function HomeContent() {
                   
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-aqua-500 via-teal-500 to-aqua-600 text-white font-semibold py-4 px-6 rounded-xl hover-glow transition-all duration-300 group"
+                    disabled={formStatus === 'sending'}
+                    className={`w-full bg-gradient-to-r from-aqua-500 via-teal-500 to-aqua-600 text-white font-semibold py-4 px-6 rounded-xl hover-glow transition-all duration-300 group ${
+                      formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                   >
                     <span className="flex items-center justify-center gap-2">
-                      <Mail size={20} />
-                      {t.contact.form.button}
-                      <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                      {formStatus === 'sending' ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Mail size={20} />
+                          {t.contact.form.button}
+                          <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        </>
+                      )}
                     </span>
                   </button>
                 </form>
@@ -1110,7 +1500,7 @@ function HomeContent() {
             {/* Additional Info */}
             <div className="lg:col-span-2 scroll-reveal space-y-8">
               {/* Availability Card */}
-              <div className="glass p-6 rounded-3xl border border-white/10">
+              <div className="glass p-6 rounded-3xl border border-white/10 hover:scale-[1.01] hover:shadow-xl hover:shadow-teal-500/20 transition-all duration-500">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-aqua-600 rounded-xl flex items-center justify-center">
                     <Calendar size={20} className="text-white" />
@@ -1134,7 +1524,7 @@ function HomeContent() {
               </div>
 
               {/* FAQ Card */}
-              <div className="glass p-6 rounded-3xl border border-white/10">
+              <div className="glass p-6 rounded-3xl border border-white/10 hover:scale-[1.01] hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-500">
                 <h4 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500 mb-4">{t.contact.faq.title}</h4>
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start gap-3">
@@ -1176,7 +1566,7 @@ function HomeContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center">
             <p className="text-white/60 mb-4">
-              {t.footer.copyright}
+              {t.footer.copyright.replace('{year}', new Date().getFullYear().toString())}
             </p>
             <div className={`flex flex-wrap justify-center gap-4 sm:gap-6 ${isRTL ? 'space-x-reverse' : ''}`}>
               {[
@@ -1184,7 +1574,7 @@ function HomeContent() {
                 { name: t.footer.social.linkedin, key: 'linkedin' },
                 { name: t.footer.social.twitter, key: 'twitter' },
                 { name: t.footer.social.instagram, key: 'instagram' }
-              ].map((social, index) => (
+              ].map((social) => (
                 <a
                   key={social.key}
                   href="#"
@@ -1200,6 +1590,90 @@ function HomeContent() {
       
       {/* Language Switcher */}
       <LanguageSwitcher />
+
+      {/* Modern Modal for Success/Error */}
+      {showModal && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-modal-backdrop"
+          onClick={() => setShowModal(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+          
+          {/* Modal Content */}
+          <div 
+            className={`relative glass border-2 rounded-3xl p-8 sm:p-10 max-w-md w-full transform transition-all duration-500 animate-modal-slide ${
+              modalType === 'success' 
+                ? 'border-green-500/50 shadow-2xl shadow-green-500/20' 
+                : 'border-red-500/50 shadow-2xl shadow-red-500/20'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300 group"
+            >
+              <X size={18} className="text-white/70 group-hover:text-white transition-colors" />
+            </button>
+
+            {/* Icon */}
+            <div className="flex justify-center mb-6">
+              <div className={`relative w-20 h-20 rounded-full flex items-center justify-center ${
+                modalType === 'success' 
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
+                  : 'bg-gradient-to-r from-red-500 to-rose-500'
+              } animate-modal-icon`}>
+                {modalType === 'success' ? (
+                  <CheckCircle size={40} className="text-white" strokeWidth={2.5} />
+                ) : (
+                  <AlertCircle size={40} className="text-white" strokeWidth={2.5} />
+                )}
+                {/* Pulsing ring */}
+                <div className={`absolute inset-0 rounded-full ${
+                  modalType === 'success' ? 'bg-green-500' : 'bg-red-500'
+                } animate-ping opacity-20`}></div>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className={`text-2xl sm:text-3xl font-bold text-center mb-4 ${
+              modalType === 'success' ? 'text-green-400' : 'text-red-400'
+            }`}>
+              {modalType === 'success' ? 'Message Sent Successfully!' : 'Message Not Sent'}
+            </h3>
+
+            {/* Message */}
+            <p className="text-white/80 text-center text-base sm:text-lg leading-relaxed mb-6">
+              {modalType === 'success' ? (
+                <>
+                  Your message has been sent with success! I&apos;m happy for you. I will contact you very soon.
+                </>
+              ) : (
+                <>
+                  Your message does not send. Please try again or contact me directly via email.
+                </>
+              )}
+            </p>
+
+            {/* Button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className={`w-full py-4 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                modalType === 'success' 
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500' 
+                  : 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500'
+              }`}
+            >
+              {modalType === 'success' ? 'Got it, thanks!' : 'Try Again'}
+            </button>
+
+            {/* Decorative elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-aqua-500/20 to-teal-500/20 rounded-full blur-2xl -z-10"></div>
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-2xl -z-10"></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
