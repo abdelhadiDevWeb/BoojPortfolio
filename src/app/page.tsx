@@ -492,10 +492,10 @@ function HomeContent() {
                   </h1>
                 </div>
                 
-                <div className="overflow-hidden">
+                <div className="overflow-visible">
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
                     <span
-                      className="inline-block min-w-[15ch] text-white animate-write-erase"
+                      className="inline-block min-w-[12ch] text-white animate-write-erase"
                       style={{ animationDelay: '.5s' }}
                     >
                     {t.personal.surname}
@@ -635,50 +635,50 @@ function HomeContent() {
             </div>
             
             {/* Code snippet display under image */}
-            <div className="mt-6 sm:mt-8 lg:mt-10 max-w-md mx-auto">
-              <div className="glass p-4 sm:p-5 lg:p-6 rounded-2xl border border-aqua-500/20 hover:border-aqua-500/40 transition-all duration-500 group/code">
-                <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80"></div>
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
+            <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 max-w-xs xs:max-w-sm sm:max-w-md mx-auto px-2 sm:px-0">
+              <div className="glass p-3 sm:p-4 md:p-5 lg:p-6 rounded-xl sm:rounded-2xl border border-aqua-500/20 hover:border-aqua-500/40 transition-all duration-500 group/code">
+                <div className="flex items-center gap-2 mb-2 sm:mb-3 md:mb-4">
+                  <div className="flex gap-1 sm:gap-1.5">
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/80"></div>
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/80"></div>
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/80"></div>
                   </div>
-                  <span className="text-white/60 text-xs sm:text-sm font-mono">portfolio.tsx</span>
+                  <span className="text-white/60 text-[10px] xs:text-xs sm:text-sm font-mono">portfolio.tsx</span>
                 </div>
-                <div className="space-y-2 sm:space-y-2.5 font-mono text-xs sm:text-sm lg:text-base">
-                  <div className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-aqua-400/60 flex-shrink-0">1</span>
-                    <code className="text-white/80">
+                <div className="space-y-1.5 sm:space-y-2 md:space-y-2.5 font-mono text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-base overflow-x-auto">
+                  <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap">
+                    <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">1</span>
+                    <code className="text-white/80 break-words">
                       <span className="text-purple-400">const</span> <span className="text-aqua-400">developer</span> = {'{'}
                     </code>
                   </div>
-                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
-                    <span className="text-aqua-400/60 flex-shrink-0">2</span>
-                    <code className="text-white/80">
+                  <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
+                    <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">2</span>
+                    <code className="text-white/80 break-words">
                       <span className="text-cyan-400">name</span>: <span className="text-green-400">&apos;Abdelhadi&apos;</span>,
                     </code>
                   </div>
-                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
-                    <span className="text-aqua-400/60 flex-shrink-0">3</span>
-                    <code className="text-white/80">
+                  <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
+                    <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">3</span>
+                    <code className="text-white/80 break-words">
                       <span className="text-cyan-400">role</span>: <span className="text-green-400">&apos;Full Stack Developer&apos;</span>,
                     </code>
                   </div>
-                  <div className="flex items-start gap-2 sm:gap-3 pl-4 sm:pl-6">
-                    <span className="text-aqua-400/60 flex-shrink-0">4</span>
-                    <code className="text-white/80">
+                  <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
+                    <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">4</span>
+                    <code className="text-white/80 break-words">
                       <span className="text-cyan-400">status</span>: <span className="text-yellow-400">&apos;Available&apos;</span>
                     </code>
                   </div>
-                  <div className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-aqua-400/60 flex-shrink-0">5</span>
+                  <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap">
+                    <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">5</span>
                     <code className="text-white/80">{'}'};</code>
                   </div>
                 </div>
                 {/* Animated cursor */}
-                <div className="mt-3 sm:mt-4 flex items-center gap-2 sm:gap-3">
-                  <span className="text-aqua-400/60 font-mono text-xs sm:text-sm">6</span>
-                  <div className="w-2 h-4 sm:w-2.5 sm:h-5 bg-aqua-400 animate-blink"></div>
+                <div className="mt-2 sm:mt-3 md:mt-4 flex items-center gap-1.5 sm:gap-2 md:gap-3">
+                  <span className="text-aqua-400/60 font-mono text-[10px] xs:text-xs sm:text-sm">6</span>
+                  <div className="w-1.5 h-3 sm:w-2 sm:h-4 md:w-2.5 md:h-5 bg-aqua-400 animate-blink"></div>
                 </div>
               </div>
             </div>
@@ -708,26 +708,26 @@ function HomeContent() {
           </div>
           
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 lg:mb-20 scroll-reveal relative z-10">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-12 md:mb-16 lg:mb-20 scroll-reveal relative z-10">
             {[
               { number: "+ 2", label: t.about.stats.experience, color: "from-aqua-500 to-teal-500" },
               { number: "17", label: t.about.stats.projects, color: "from-cyan-500 to-aqua-500" },
               { number: "15+", label: t.about.stats.clients, color: "from-teal-500 to-cyan-500" },
               { number: "24/7", label: t.about.stats.support, color: "from-aqua-500 to-cyan-500" }
             ].map((stat, index) => (
-              <div key={index} className="glass p-6 rounded-2xl text-center hover-float group">
-                <div className={`text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${stat.color} mb-2`}>
+              <div key={index} className="glass p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl text-center hover-float group">
+                <div className={`text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${stat.color} mb-1 sm:mb-2`}>
                   {stat.number}
                 </div>
-                <div className="text-white/70 text-sm">{stat.label}</div>
+                <div className="text-white/70 text-xs sm:text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
           
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative z-10">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 relative z-10">
             {/* Journey Card */}
             <div className="lg:col-span-2 scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-aqua-500/20 relative overflow-hidden">
+              <div className="glass p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-aqua-500/20 relative overflow-hidden">
                 {/* Animated background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-aqua-500/5 via-transparent to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
@@ -759,24 +759,24 @@ function HomeContent() {
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-aqua-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
                     
                     {/* Content card with enhanced animations */}
-                    <div className="glass p-5 rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-aqua-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
                       
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div>
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.title}</h4>
-                          <p className="text-aqua-400 font-medium mb-2 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.company}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.title}</h4>
+                          <p className="text-aqua-400 font-medium mb-2 text-sm sm:text-base group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.about.journey.currentJob.company}</p>
                         </div>
-                        <div className="px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300">
-                          <span className="text-aqua-300 text-xs font-semibold">Current</span>
+                        <div className="px-2 sm:px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-aqua-300 text-xs font-semibold whitespace-nowrap">Current</span>
                         </div>
                       </div>
-                      <p className="text-white/70 text-sm mb-2 flex items-center gap-2">
-                        <Calendar size={14} className="text-aqua-400" />
+                      <p className="text-white/70 text-xs sm:text-sm mb-2 flex items-center gap-2">
+                        <Calendar size={12} className="sm:w-3.5 sm:h-3.5 text-aqua-400" />
                         {t.about.journey.currentJob.period}
                       </p>
-                      <p className="text-white/60 text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.currentJob.description}</p>
+                      <p className="text-white/60 text-xs sm:text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.currentJob.description}</p>
                     </div>
                   </div>
                   
@@ -794,24 +794,24 @@ function HomeContent() {
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-teal-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
                     
                     {/* Content card with enhanced animations */}
-                    <div className="glass p-5 rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
                       
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div>
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.title}</h4>
-                          <p className="text-teal-400 font-medium mb-2 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.company}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.title}</h4>
+                          <p className="text-teal-400 font-medium mb-2 text-sm sm:text-base group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.company}</p>
                         </div>
-                        <div className="px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300">
-                          <span className="text-teal-300 text-xs font-semibold">Active</span>
+                        <div className="px-2 sm:px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300 flex-shrink-0">
+                          <span className="text-teal-300 text-xs font-semibold whitespace-nowrap">Active</span>
                         </div>
                       </div>
-                      <p className="text-white/70 text-sm mb-2 flex items-center gap-2">
-                        <Calendar size={14} className="text-teal-400" />
+                      <p className="text-white/70 text-xs sm:text-sm mb-2 flex items-center gap-2">
+                        <Calendar size={12} className="sm:w-3.5 sm:h-3.5 text-teal-400" />
                         {t.about.journey.freelance.period}
                       </p>
-                      <p className="text-white/60 text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.freelance.description}</p>
+                      <p className="text-white/60 text-xs sm:text-sm leading-relaxed group-hover/timeline:text-white/70 transition-colors duration-300">{t.about.journey.freelance.description}</p>
                     </div>
                   </div>
                 </div>
@@ -820,15 +820,15 @@ function HomeContent() {
 
             {/* Services Card */}
             <div className="scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-teal-500/30 transition-all duration-500 h-full hover:scale-[1.02] hover:shadow-2xl hover:shadow-teal-500/20">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center">
-                    <Settings size={24} className="text-white" />
+              <div className="glass p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-white/10 hover:border-teal-500/30 transition-all duration-500 h-full hover:scale-[1.02] hover:shadow-2xl hover:shadow-teal-500/20">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Settings size={20} className="sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500 opacity-100">{t.about.services.title}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500 opacity-100">{t.about.services.title}</h3>
                 </div>
                 
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-5 md:space-y-6">
                   {[
                     { icon: Globe, title: t.about.services.web.title, desc: t.about.services.web.description, color: "text-aqua-400", bg: "bg-aqua-500/20" },
                     { icon: Smartphone, title: t.about.services.mobile.title, desc: t.about.services.mobile.description, color: "text-teal-400", bg: "bg-teal-500/20" },
@@ -837,14 +837,14 @@ function HomeContent() {
                   ].map((item, index) => {
                     const IconComponent = item.icon;
                     return (
-                      <div key={index} className="group p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 cursor-pointer">
-                        <div className="flex items-center gap-4">
-                          <div className={`${item.color} ${item.bg} p-3 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
-                            <IconComponent size={20} />
+                      <div key={index} className="group p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 cursor-pointer">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          <div className={`${item.color} ${item.bg} p-2 sm:p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                            <IconComponent size={18} className="sm:w-5 sm:h-5" />
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-white group-hover:text-aqua-400 transition-colors">{item.title}</h4>
-                            <p className="text-white/60 text-sm">{item.desc}</p>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-white text-sm sm:text-base group-hover:text-aqua-400 transition-colors">{item.title}</h4>
+                            <p className="text-white/60 text-xs sm:text-sm mt-1">{item.desc}</p>
                           </div>
                         </div>
                       </div>
@@ -879,19 +879,19 @@ function HomeContent() {
           </div>
           
           {/* Skills Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 scroll-reveal">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-12 md:mb-16 scroll-reveal">
             {[
               { title: "Frontend", count: "10", desc: t.skills.overview.frontend, color: "from-aqua-500 to-teal-500" },
               { title: "Backend", count: "7", desc: t.skills.overview.backend, color: "from-teal-500 to-cyan-500" },
               { title: "Tools", count: "4+", desc: t.skills.overview.tools, color: "from-cyan-500 to-aqua-500" },
               { title: "Years", count: "+ 2", desc: t.skills.overview.years, color: "from-aqua-500 to-cyan-500" }
             ].map((item, index) => (
-              <div key={index} className="glass p-6 rounded-2xl text-center hover-3d group border border-white/10">
-                <div className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-2`}>
+              <div key={index} className="glass p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl text-center hover-3d group border border-white/10">
+                <div className={`text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-1 sm:mb-2`}>
                   {item.count}
                 </div>
-                <div className="text-white font-semibold mb-1">{item.title}</div>
-                <div className="text-white/60 text-sm">{item.desc}</div>
+                <div className="text-white font-semibold text-sm sm:text-base mb-0.5 sm:mb-1">{item.title}</div>
+                <div className="text-white/60 text-xs sm:text-sm">{item.desc}</div>
               </div>
             ))}
           </div>
@@ -926,23 +926,23 @@ function HomeContent() {
               const IconComponent = config.icon;
               
               return (
-                <div key={category} className={`glass p-8 rounded-3xl border ${config.borderColor} hover:border-opacity-50 transition-all duration-500 group hover:scale-[1.03] hover:shadow-2xl hover:shadow-cyan-500/20`}>
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className={`w-12 h-12 ${config.iconBg} rounded-xl flex items-center justify-center`}>
-                      <IconComponent size={24} className="text-white" />
+                <div key={category} className={`glass p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border ${config.borderColor} hover:border-opacity-50 transition-all duration-500 group hover:scale-[1.03] hover:shadow-2xl hover:shadow-cyan-500/20`}>
+                  <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 ${config.iconBg} rounded-lg sm:rounded-xl flex items-center justify-center`}>
+                      <IconComponent size={20} className="sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <h3 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${config.gradient}`}>
+                    <h3 className={`text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${config.gradient}`}>
                       {config.title}
                     </h3>
                   </div>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-5 md:space-y-6">
                     {skillList.map((skill, index) => (
                       <div key={index} className="group/skill">
-                        <div className="flex justify-between items-center mb-3">
-                          <span className="text-white font-medium group-hover/skill:text-aqua-400 transition-colors">{skill.name}</span>
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-1 bg-white/20 rounded-full overflow-hidden">
+                        <div className="flex justify-between items-center mb-2 sm:mb-3 gap-2">
+                          <span className="text-white font-medium text-sm sm:text-base group-hover/skill:text-aqua-400 transition-colors flex-shrink-0">{skill.name}</span>
+                          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                            <div className="w-6 sm:w-8 h-1 bg-white/20 rounded-full overflow-hidden">
                               <div 
                                 className={`h-full bg-gradient-to-r ${config.gradient} transition-all duration-1000`}
                                 style={{
@@ -951,7 +951,7 @@ function HomeContent() {
                                 }}
                               ></div>
                             </div>
-                            <span className={`text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r ${config.gradient}`}>
+                            <span className={`text-xs sm:text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r ${config.gradient}`}>
                               {skill.level}%
                             </span>
                           </div>
@@ -1004,10 +1004,10 @@ function HomeContent() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 relative z-10">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 relative z-10">
             {projects.map((project, index) => (
-              <div key={index} className={`scroll-reveal glass rounded-2xl overflow-hidden hover-3d group hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 ${project.featured ? 'lg:col-span-1' : ''}`}>
-                <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
+              <div key={index} className={`scroll-reveal glass rounded-xl sm:rounded-2xl overflow-hidden hover-3d group hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 ${project.featured ? 'lg:col-span-1' : ''}`}>
+                <div className="relative h-40 xs:h-48 sm:h-56 md:h-64 overflow-hidden">
           <Image
                     src={project.image}
                     alt={project.title}
@@ -1022,21 +1022,21 @@ function HomeContent() {
                     </div>
                   )}
                 </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-semibold text-white mb-4 group-hover:text-aqua-400 transition-colors">
+                <div className="p-5 sm:p-6 md:p-8">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4 group-hover:text-aqua-400 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-white/80 mb-6 leading-relaxed">
+                  <p className="text-white/80 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {project.tech.map((tech, techIndex) => (
-                      <span key={techIndex} className="bg-white/10 text-white/90 px-3 py-1 rounded-full text-sm border border-white/20 hover:border-cyan-400/50 transition-colors">
+                      <span key={techIndex} className="bg-white/10 text-white/90 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm border border-white/20 hover:border-cyan-400/50 transition-colors">
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
                     {project.links.website && (
                       <Link 
                         href={project.links.website} 
@@ -1110,41 +1110,41 @@ function HomeContent() {
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto relative z-10">
-            <div className="glass p-6 sm:p-8 lg:p-12 rounded-3xl text-center scroll-reveal hover:scale-[1.02] hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500">
-              <div className="mb-8">
+          <div className="max-w-4xl mx-auto relative z-10 px-2 sm:px-0">
+            <div className="glass p-5 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl text-center scroll-reveal hover:scale-[1.02] hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500">
+              <div className="mb-6 sm:mb-8">
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-2xl">★</span>
+                  <span key={i} className="text-yellow-400 text-lg sm:text-xl md:text-2xl">★</span>
                 ))}
               </div>
               
-              <blockquote className="text-lg sm:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 leading-relaxed italic">
+              <blockquote className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-4 sm:mb-6 md:mb-8 leading-relaxed italic px-2 sm:px-0">
                 &quot;{testimonials[currentTestimonial].content}&quot;
               </blockquote>
               
-              <div className="flex items-center justify-center space-x-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-aqua-500 to-teal-600 flex items-center justify-center border-2 border-aqua-400">
-                  <User size={32} className="text-white" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-aqua-500 to-teal-600 flex items-center justify-center border-2 border-aqua-400 flex-shrink-0">
+                  <User size={24} className="sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                 </div>
-                <div>
-                  <div className="text-white font-semibold text-lg">
+                <div className="text-center sm:text-left">
+                  <div className="text-white font-semibold text-base sm:text-lg">
                     {testimonials[currentTestimonial].name}
                   </div>
-                  <div className="text-aqua-400">
+                  <div className="text-aqua-400 text-sm sm:text-base">
                     {testimonials[currentTestimonial].role}
                   </div>
                 </div>
               </div>
               
-              <div className="flex justify-center space-x-3 mt-8">
+              <div className="flex justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
                       index === currentTestimonial
-                        ? 'bg-gradient-to-r from-aqua-500 to-teal-600 w-8'
-                        : 'bg-white/30 hover:bg-white/50'
+                        ? 'bg-gradient-to-r from-aqua-500 to-teal-600 w-6 sm:w-8'
+                        : 'bg-white/30 hover:bg-white/50 w-2 sm:w-3'
                     }`}
                   />
                 ))}
@@ -1175,23 +1175,23 @@ function HomeContent() {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 relative z-10">
             {/* Education Timeline */}
             <div className="scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-indigo-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-500/20 relative overflow-hidden">
+              <div className="glass p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-white/10 hover:border-indigo-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-500/20 relative overflow-hidden">
                 {/* Animated background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-8 relative z-10">
-                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-indigo-500/30">
-                    <BookOpen size={24} className="text-white" />
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 relative z-10">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-indigo-500/30">
+                    <BookOpen size={20} className="sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-500 opacity-100">Education & Training</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-500 opacity-100">Education & Training</h3>
                 </div>
                 
                 {/* Education Timeline */}
-                <div className="space-y-6 relative z-10">
+                <div className="space-y-4 sm:space-y-5 md:space-y-6 relative z-10">
                   {/* Diploma */}
                   <div className="relative pl-10 group/timeline">
                     <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-blue-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
@@ -1201,16 +1201,16 @@ function HomeContent() {
                     </div>
                     {/* Pulsing ring effect */}
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-indigo-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
-                    <div className="glass p-5 rounded-xl border border-indigo-500/20 group-hover/timeline:border-indigo-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-indigo-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-indigo-500/20 group-hover/timeline:border-indigo-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-indigo-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.title}</h4>
-                          <p className="text-indigo-400 font-medium mb-1 group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.field}</p>
-                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.diploma.institution}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.title}</h4>
+                          <p className="text-indigo-400 font-medium mb-1 text-sm sm:text-base group-hover/timeline:text-indigo-300 transition-colors duration-300">{t.education.diploma.field}</p>
+                          <p className="text-white/60 text-xs sm:text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.diploma.institution}</p>
                         </div>
-                        <div className="px-3 py-1 bg-indigo-500/20 rounded-full border border-indigo-500/30 group-hover/timeline:bg-indigo-500/30 group-hover/timeline:border-indigo-500/50 transition-all duration-300 flex-shrink-0">
+                        <div className="px-2 sm:px-3 py-1 bg-indigo-500/20 rounded-full border border-indigo-500/30 group-hover/timeline:bg-indigo-500/30 group-hover/timeline:border-indigo-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-indigo-300 text-xs font-semibold whitespace-nowrap">{t.education.diploma.period}</span>
                         </div>
                       </div>
@@ -1225,15 +1225,15 @@ function HomeContent() {
                     </div>
                     {/* Pulsing ring effect */}
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-blue-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
-                    <div className="glass p-5 rounded-xl border border-blue-500/20 group-hover/timeline:border-blue-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-blue-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-blue-500/20 group-hover/timeline:border-blue-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-blue-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-blue-300 transition-colors duration-300">{t.education.training.title}</h4>
-                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.training.description}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-blue-300 transition-colors duration-300">{t.education.training.title}</h4>
+                          <p className="text-white/60 text-xs sm:text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.training.description}</p>
                         </div>
-                        <div className="px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30 group-hover/timeline:bg-blue-500/30 group-hover/timeline:border-blue-500/50 transition-all duration-300 flex-shrink-0">
+                        <div className="px-2 sm:px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30 group-hover/timeline:bg-blue-500/30 group-hover/timeline:border-blue-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-blue-300 text-xs font-semibold whitespace-nowrap">{t.education.training.duration}</span>
                         </div>
                       </div>
@@ -1245,20 +1245,20 @@ function HomeContent() {
             
             {/* Internships & Experience */}
             <div className="scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-blue-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20 relative overflow-hidden">
+              <div className="glass p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-white/10 hover:border-blue-500/30 transition-all duration-500 group hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20 relative overflow-hidden">
                 {/* Animated background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-8 relative z-10">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-blue-500/30">
-                    <Briefcase size={24} className="text-white" />
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 relative z-10">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-blue-500/30">
+                    <Briefcase size={20} className="sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500 opacity-100">Internships & Experience</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500 opacity-100">Internships & Experience</h3>
                 </div>
                 
                 {/* Internships Timeline */}
-                <div className="space-y-6 relative z-10">
+                <div className="space-y-4 sm:space-y-5 md:space-y-6 relative z-10">
                   {/* Current Job */}
                   <div className="relative pl-10 group/timeline">
                     <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-teal-500 to-transparent group-hover/timeline:w-1 transition-all duration-500"></div>
@@ -1267,21 +1267,21 @@ function HomeContent() {
                     </div>
                     {/* Pulsing ring effect */}
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-cyan-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
-                    <div className="glass p-5 rounded-xl border border-cyan-500/20 group-hover/timeline:border-cyan-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-cyan-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-cyan-500/20 group-hover/timeline:border-cyan-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-cyan-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.title}</h4>
-                          <p className="text-cyan-400 font-medium mb-1 group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.company}</p>
-                          <p className="text-white/60 text-sm mb-2 group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.current.description}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.title}</h4>
+                          <p className="text-cyan-400 font-medium mb-1 text-sm sm:text-base group-hover/timeline:text-cyan-300 transition-colors duration-300">{t.education.current.company}</p>
+                          <p className="text-white/60 text-xs sm:text-sm mb-2 group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.current.description}</p>
                         </div>
-                        <div className="px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30 group-hover/timeline:bg-cyan-500/30 group-hover/timeline:border-cyan-500/50 transition-all duration-300 flex-shrink-0">
+                        <div className="px-2 sm:px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30 group-hover/timeline:bg-cyan-500/30 group-hover/timeline:border-cyan-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-cyan-300 text-xs font-semibold whitespace-nowrap">Current</span>
                         </div>
                       </div>
-                      <p className="text-white/70 text-sm flex items-center gap-2 group-hover/timeline:text-white/80 transition-colors duration-300">
-                        <Calendar size={14} className="text-cyan-400" />
+                      <p className="text-white/70 text-xs sm:text-sm flex items-center gap-2 group-hover/timeline:text-white/80 transition-colors duration-300">
+                        <Calendar size={12} className="sm:w-3.5 sm:h-3.5 text-cyan-400" />
                         {t.education.current.period}
                       </p>
                     </div>
@@ -1295,16 +1295,16 @@ function HomeContent() {
                     </div>
                     {/* Pulsing ring effect */}
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-teal-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
-                    <div className="glass p-5 rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-teal-500/20 group-hover/timeline:border-teal-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-teal-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.title}</h4>
-                          <p className="text-teal-400 font-medium mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.company}</p>
-                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.talabe.description}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.title}</h4>
+                          <p className="text-teal-400 font-medium mb-1 text-sm sm:text-base group-hover/timeline:text-teal-300 transition-colors duration-300">{t.education.internships.talabe.company}</p>
+                          <p className="text-white/60 text-xs sm:text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.talabe.description}</p>
                         </div>
-                        <div className="px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300 flex-shrink-0">
+                        <div className="px-2 sm:px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-teal-300 text-xs font-semibold whitespace-nowrap">{t.education.internships.talabe.duration}</span>
                         </div>
                       </div>
@@ -1319,16 +1319,16 @@ function HomeContent() {
                     </div>
                     {/* Pulsing ring effect */}
                     <div className="absolute -left-3 top-0 w-6 h-6 rounded-full border-2 border-aqua-400/50 animate-ping opacity-0 group-hover/timeline:opacity-100"></div>
-                    <div className="glass p-5 rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="glass p-4 sm:p-5 rounded-lg sm:rounded-xl border border-aqua-500/20 group-hover/timeline:border-aqua-500/50 group-hover/timeline:scale-[1.02] group-hover/timeline:shadow-xl group-hover/timeline:shadow-aqua-500/20 transition-all duration-500 relative overflow-hidden">
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-aqua-400/10 to-transparent -translate-x-full group-hover/timeline:translate-x-full transition-transform duration-1000"></div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.title}</h4>
-                          <p className="text-aqua-400 font-medium mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.company}</p>
-                          <p className="text-white/60 text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.seall.description}</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.title}</h4>
+                          <p className="text-aqua-400 font-medium mb-1 text-sm sm:text-base group-hover/timeline:text-aqua-300 transition-colors duration-300">{t.education.internships.seall.company}</p>
+                          <p className="text-white/60 text-xs sm:text-sm group-hover/timeline:text-white/70 transition-colors duration-300">{t.education.internships.seall.description}</p>
                         </div>
-                        <div className="px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300 flex-shrink-0">
+                        <div className="px-2 sm:px-3 py-1 bg-aqua-500/20 rounded-full border border-aqua-500/30 group-hover/timeline:bg-aqua-500/30 group-hover/timeline:border-aqua-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-aqua-300 text-xs font-semibold whitespace-nowrap">{t.education.internships.seall.duration}</span>
                         </div>
                       </div>
@@ -1425,68 +1425,68 @@ function HomeContent() {
           <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 relative z-10">
             {/* Contact Form */}
             <div id="contact-form" className="lg:col-span-3 scroll-reveal">
-              <div className="glass p-8 rounded-3xl border border-white/10 hover:border-aqua-500/30 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-aqua-500/20">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-xl flex items-center justify-center">
-                    <Mail size={24} className="text-white" />
+              <div className="glass p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border border-white/10 hover:border-aqua-500/30 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-aqua-500/20">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-aqua-500 to-teal-600 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Mail size={20} className="sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100">{t.contact.form.title}</h3>
+                  <h3 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100">{t.contact.form.title}</h3>
                 </div>
                 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div className="space-y-2">
-                      <label className="text-white/70 text-sm font-medium">{t.contact.form.name}</label>
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-white/70 text-xs sm:text-sm font-medium">{t.contact.form.name}</label>
                       <input
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder={t.contact.form.placeholders.name}
-                        className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
+                        className="w-full bg-white/5 border border-white/20 rounded-lg sm:rounded-xl px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-white/70 text-sm font-medium">{t.contact.form.email}</label>
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-white/70 text-xs sm:text-sm font-medium">{t.contact.form.email}</label>
                       <input
                         type="email"
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder={t.contact.form.placeholders.email}
-                        className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
+                        className="w-full bg-white/5 border border-white/20 rounded-lg sm:rounded-xl px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
                       />
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="text-white/70 text-sm font-medium">{t.contact.form.projectDetails}</label>
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-white/70 text-xs sm:text-sm font-medium">{t.contact.form.projectDetails}</label>
                     <textarea
-                      rows={6}
+                      rows={5}
                       required
                       value={formData.projectDetails}
                       onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
                       placeholder={t.contact.form.placeholders.details}
-                      className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:bg-white/10 transition-all duration-300 resize-none"
+                      className="w-full bg-white/5 border border-white/20 rounded-lg sm:rounded-xl px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-white/40 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:bg-white/10 transition-all duration-300 resize-none"
                     ></textarea>
                   </div>
                   
                   <button
                     type="submit"
                     disabled={formStatus === 'sending'}
-                    className={`w-full bg-gradient-to-r from-aqua-500 via-teal-500 to-aqua-600 text-white font-semibold py-4 px-6 rounded-xl hover-glow transition-all duration-300 group ${
+                    className={`w-full bg-gradient-to-r from-aqua-500 via-teal-500 to-aqua-600 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl hover-glow transition-all duration-300 group text-sm sm:text-base ${
                       formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
                     <span className="flex items-center justify-center gap-2">
                       {formStatus === 'sending' ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                           <span>Sending...</span>
                         </>
                       ) : (
                         <>
-                          <Mail size={20} />
+                          <Mail size={18} className="sm:w-5 sm:h-5" />
                           {t.contact.form.button}
                           <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                         </>
@@ -1594,7 +1594,7 @@ function HomeContent() {
       {/* Modern Modal for Success/Error */}
       {showModal && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-modal-backdrop"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 animate-modal-backdrop"
           onClick={() => setShowModal(false)}
         >
           {/* Backdrop */}
@@ -1602,7 +1602,7 @@ function HomeContent() {
           
           {/* Modal Content */}
           <div 
-            className={`relative glass border-2 rounded-3xl p-8 sm:p-10 max-w-md w-full transform transition-all duration-500 animate-modal-slide ${
+            className={`relative glass border-2 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 max-w-xs sm:max-w-sm md:max-w-md w-full mx-2 sm:mx-4 transform transition-all duration-500 animate-modal-slide ${
               modalType === 'success' 
                 ? 'border-green-500/50 shadow-2xl shadow-green-500/20' 
                 : 'border-red-500/50 shadow-2xl shadow-red-500/20'
@@ -1612,22 +1612,22 @@ function HomeContent() {
             {/* Close Button */}
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300 group"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300 group"
             >
-              <X size={18} className="text-white/70 group-hover:text-white transition-colors" />
+              <X size={16} className="sm:w-[18px] sm:h-[18px] text-white/70 group-hover:text-white transition-colors" />
             </button>
 
             {/* Icon */}
-            <div className="flex justify-center mb-6">
-              <div className={`relative w-20 h-20 rounded-full flex items-center justify-center ${
+            <div className="flex justify-center mb-4 sm:mb-6">
+              <div className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center ${
                 modalType === 'success' 
                   ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
                   : 'bg-gradient-to-r from-red-500 to-rose-500'
               } animate-modal-icon`}>
                 {modalType === 'success' ? (
-                  <CheckCircle size={40} className="text-white" strokeWidth={2.5} />
+                  <CheckCircle size={32} className="sm:w-10 sm:h-10 text-white" strokeWidth={2.5} />
                 ) : (
-                  <AlertCircle size={40} className="text-white" strokeWidth={2.5} />
+                  <AlertCircle size={32} className="sm:w-10 sm:h-10 text-white" strokeWidth={2.5} />
                 )}
                 {/* Pulsing ring */}
                 <div className={`absolute inset-0 rounded-full ${
@@ -1637,14 +1637,14 @@ function HomeContent() {
             </div>
 
             {/* Title */}
-            <h3 className={`text-2xl sm:text-3xl font-bold text-center mb-4 ${
+            <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold text-center mb-3 sm:mb-4 ${
               modalType === 'success' ? 'text-green-400' : 'text-red-400'
             }`}>
               {modalType === 'success' ? 'Message Sent Successfully!' : 'Message Not Sent'}
             </h3>
 
             {/* Message */}
-            <p className="text-white/80 text-center text-base sm:text-lg leading-relaxed mb-6">
+            <p className="text-white/80 text-center text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6 px-2 sm:px-0">
               {modalType === 'success' ? (
                 <>
                   Your message has been sent with success! I&apos;m happy for you. I will contact you very soon.
@@ -1659,7 +1659,7 @@ function HomeContent() {
             {/* Button */}
             <button
               onClick={() => setShowModal(false)}
-              className={`w-full py-4 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+              className={`w-full py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold text-white text-sm sm:text-base transition-all duration-300 hover:scale-105 hover:shadow-lg ${
                 modalType === 'success' 
                   ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500' 
                   : 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500'
@@ -1669,8 +1669,8 @@ function HomeContent() {
             </button>
 
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-aqua-500/20 to-teal-500/20 rounded-full blur-2xl -z-10"></div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-2xl -z-10"></div>
+            <div className="absolute -top-4 -right-4 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-aqua-500/20 to-teal-500/20 rounded-full blur-2xl -z-10"></div>
+            <div className="absolute -bottom-4 -left-4 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-2xl -z-10"></div>
           </div>
         </div>
       )}

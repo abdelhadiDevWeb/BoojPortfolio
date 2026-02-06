@@ -548,19 +548,19 @@ body {
 /* Write and Erase Animation */
 @keyframes write-erase-cycle {
   0% {
-    clip-path: inset(0 calc(100% + 1ch) 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   25% {
-    clip-path: inset(0 -1ch 0 0);
+    clip-path: inset(0 0 0 0);
   }
   50% {
-    clip-path: inset(0 -1ch 0 0);
+    clip-path: inset(0 0 0 0);
   }
   75% {
-    clip-path: inset(0 calc(100% + 1ch) 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   100% {
-    clip-path: inset(0 calc(100% + 1ch) 0 0);
+    clip-path: inset(0 100% 0 0);
   }
 }
 
@@ -647,10 +647,10 @@ body {
   display: inline-block;
   position: relative;
   white-space: nowrap;
-  padding-right: 0;
-  overflow: hidden;
+  padding-right: 0.5rem;
+  overflow: visible;
   width: fit-content;
-  min-width: 15ch;
+  min-width: 12ch;
 }
 
 .animate-write-erase::after {
