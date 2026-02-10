@@ -296,6 +296,17 @@ export interface Translation {
     fullName: string;
     codeName: string;
   };
+  
+  // Code Section
+  code: {
+    fileName: string;
+    const: string;
+    developer: string;
+    name: string;
+    role: string;
+    status: string;
+    available: string;
+  };
 }
 
 export const translations: Record<string, Translation> = {
@@ -574,6 +585,15 @@ export const translations: Record<string, Translation> = {
       surname: "boudjemline",
       fullName: "Abdelhadi boudjemline",
       codeName: "<Abdelhadi_boudjemline/>"
+    },
+    code: {
+      fileName: "portfolio.tsx",
+      const: "const",
+      developer: "developer",
+      name: "name",
+      role: "role",
+      status: "status",
+      available: "Available"
     }
   },
   fr: {
@@ -851,6 +871,15 @@ export const translations: Record<string, Translation> = {
       surname: "boudjemline",
       fullName: "Abdelhadi boudjemline",
       codeName: "<Abdelhadi_boudjemline/>"
+    },
+    code: {
+      fileName: "portfolio.tsx",
+      const: "const",
+      developer: "developer",
+      name: "nom",
+      role: "rôle",
+      status: "statut",
+      available: "Disponible"
     }
   },
   ar: {
@@ -1128,6 +1157,15 @@ export const translations: Record<string, Translation> = {
       surname: "بوجملين",
       fullName: "عبد الهادي بوجملين",
       codeName: "<Abdelhadi_boudjemline/>"
+    },
+    code: {
+      fileName: "portfolio.tsx",
+      const: "const",
+      developer: "developer",
+      name: "الاسم",
+      role: "الدور",
+      status: "الحالة",
+      available: "متاح"
     }
   }
 };

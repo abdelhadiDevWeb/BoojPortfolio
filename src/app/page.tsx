@@ -748,31 +748,31 @@ function HomeContent() {
                     <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/80"></div>
                     <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/80"></div>
                   </div>
-                  <span className="text-white/60 text-[10px] xs:text-xs sm:text-sm font-mono">portfolio.tsx</span>
+                  <span className="text-white/60 text-[10px] xs:text-xs sm:text-sm font-mono">{t.code.fileName}</span>
                 </div>
                 <div className="space-y-1.5 sm:space-y-2 md:space-y-2.5 font-mono text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-base overflow-x-auto">
                   <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap">
                     <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">1</span>
                     <code className="text-white/80 break-words">
-                      <span className="text-purple-400">const</span> <span className="text-aqua-400">developer</span> = {'{'}
+                      <span className="text-purple-400">{t.code.const}</span> <span className="text-aqua-400">{t.code.developer}</span> = {'{'}
                     </code>
                   </div>
                   <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
                     <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">2</span>
                     <code className="text-white/80 break-words">
-                      <span className="text-cyan-400">name</span>: <span className="text-green-400">&apos;Abdelhadi&apos;</span>,
+                      <span className="text-cyan-400">{t.code.name}</span>: <span className="text-green-400">&apos;{t.personal.name}&apos;</span>,
                     </code>
                   </div>
                   <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
                     <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">3</span>
                     <code className="text-white/80 break-words">
-                      <span className="text-cyan-400">role</span>: <span className="text-green-400">&apos;Full Stack Developer&apos;</span>,
+                      <span className="text-cyan-400">{t.code.role}</span>: <span className="text-green-400">&apos;{t.hero.title}&apos;</span>,
                     </code>
                   </div>
                   <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 pl-3 sm:pl-4 md:pl-6 whitespace-nowrap">
                     <span className="text-aqua-400/60 flex-shrink-0 text-[10px] xs:text-xs sm:text-sm">4</span>
                     <code className="text-white/80 break-words">
-                      <span className="text-cyan-400">status</span>: <span className="text-yellow-400">&apos;Available&apos;</span>
+                      <span className="text-cyan-400">{t.code.status}</span>: <span className="text-yellow-400">&apos;{t.code.available}&apos;</span>
                     </code>
                   </div>
                   <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap">
