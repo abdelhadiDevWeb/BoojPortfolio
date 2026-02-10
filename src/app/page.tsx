@@ -28,7 +28,8 @@ import {
   AlertCircle,
   GraduationCap,
   Award,
-  BookOpen
+  BookOpen,
+  ArrowUp
 } from "lucide-react";
 import { Menu, X } from "lucide-react";
 import { LanguageProvider, useLanguage } from '../lib/LanguageContext';
@@ -45,11 +46,13 @@ function HomeContent() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     projectDetails: ''
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error'>('success');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const skills = {
     frontend: [
@@ -215,6 +218,14 @@ function HomeContent() {
   // Set mounted state after component mounts to prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
+    
+    // Handle scroll to show header background
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Handle form submission
@@ -223,7 +234,7 @@ function HomeContent() {
     setFormStatus('sending');
 
     // Validate form
-    if (!formData.name || !formData.email || !formData.projectDetails) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.projectDetails) {
       setFormStatus('error');
       setModalType('error');
       setShowModal(true);
@@ -240,31 +251,86 @@ function HomeContent() {
     }
 
     try {
+      // Get current date and time
+      const now = new Date();
+      const dateTime = now.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+      });
+      const dateOnly = now.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      const timeOnly = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+      // Template parameters for main email (to you)
       const templateParams = {
         from_name: formData.name,
+        user_name: formData.name, // Alternative name field
         from_email: formData.email,
+        number: formData.phone,
         message: formData.projectDetails,
         to_name: 'Abdelhadi',
+        date_time: dateTime,
+        date: dateOnly,
+        time: timeOnly,
+        timestamp: now.toISOString(),
       };
 
-      // Send email using EmailJS
-      // You need to:
-      // 1. Create a template in EmailJS dashboard
-      // 2. Replace 'YOUR_TEMPLATE_ID' with your actual template ID
-      // 3. Get your public key from EmailJS dashboard and add it as 4th parameter
-      await emailjs.send(
-        'service_8mb6nnq',
-        'template_py015sr', // Replace with your EmailJS template ID
-        templateParams,
-        'XHO0t-Tvb5zz8bdNv' // Get this from EmailJS dashboard: https://dashboard.emailjs.com/admin
-      );
+      console.log('Sending main email with params:', templateParams);
+
+      // Send main email using EmailJS
+      try {
+        const mainEmailResult = await emailjs.send(
+          'service_nr1q726',
+          'template_kaic18k',
+          templateParams,
+          'XHO0t-Tvb5zz8bdNv'
+        );
+        console.log('Main email sent successfully:', mainEmailResult);
+      } catch (mainError: unknown) {
+        const error = mainError as { message?: string; text?: string; status?: number; statusText?: string; response?: unknown };
+        console.error('Main email error:', {
+          error: mainError,
+          message: error?.message,
+          text: error?.text,
+          status: error?.status,
+          statusText: error?.statusText,
+          response: error?.response
+        });
+        throw mainError; // Re-throw to be caught by outer catch
+      }
 
       setFormStatus('success');
-      setFormData({ name: '', email: '', projectDetails: '' });
+      setFormData({ name: '', email: '', phone: '', projectDetails: '' });
       setModalType('success');
       setShowModal(true);
-    } catch (error) {
-      console.error('EmailJS error:', error);
+    } catch (error: unknown) {
+      // Better error handling
+      const err = error as { message?: string; text?: string; status?: number; statusText?: string; response?: unknown; [key: string]: unknown };
+      console.error('EmailJS error details:', {
+        error,
+        message: err?.message,
+        text: err?.text,
+        status: err?.status,
+        statusText: err?.statusText,
+        response: err?.response,
+        fullError: error ? Object.keys(err).reduce((acc, key) => {
+          acc[key] = err[key];
+          return acc;
+        }, {} as Record<string, unknown>) : 'No error object'
+      });
+      
       setFormStatus('error');
       setModalType('error');
       setShowModal(true);
@@ -400,8 +466,68 @@ function HomeContent() {
       <div className="fixed inset-0 bg-gradient-to-br from-black via-slate-900 to-black opacity-90 z-0"></div>
                     <div className="fixed inset-0 bg-gradient-to-tr from-transparent via-teal-900/10 to-aqua-900/20 animate-gradient z-0"></div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full glass-dark z-50 border-b border-aqua-500/20">
+      {/* Mobile/Tablet Navigation - Always Visible */}
+      <nav className="lg:hidden fixed top-0 w-full z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex justify-between items-center">
+            {/* Logo/Name */}
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-aqua-400 to-teal-500 opacity-100">
+              &lt;AB/&gt;
+            </h1>
+            
+            {/* Mobile Menu Button */}
+            <button 
+              className="text-white/80 hover:text-aqua-400 transition-colors p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation Menu */}
+        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+          mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="glass-dark border-t border-aqua-500/20 px-4 py-4">
+            {/* Icon at top of menu */}
+            <div className="flex justify-center mb-4 pb-4 border-b border-aqua-500/20">
+              <Image
+                src="/Code1.png"
+                alt="Code Icon"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
+              />
+            </div>
+            <div className="flex flex-col space-y-3">
+              {[
+                { key: "home", label: t.nav.home },
+                { key: "about", label: t.nav.about },
+                { key: "skills", label: t.nav.skills },
+                { key: "projects", label: t.nav.projects },
+                { key: "testimonials", label: t.nav.testimonials },
+                { key: "education", label: t.nav.education },
+                { key: "contact", label: t.nav.contact }
+              ].map((item) => (
+                <a 
+                  key={item.key}
+                  href={`#${item.key}`} 
+                  className="text-white/90 hover:text-aqua-400 transition-all duration-300 py-3 px-4 rounded-lg hover:bg-white/10 block text-base font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Desktop Navigation - Always Visible */}
+      <nav className={`hidden lg:block fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-black backdrop-blur-sm lg:shadow-[0_4px_20px_rgba(6,182,212,0.3)]' : ''
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center">
             {/* Logo/Name */}
@@ -429,42 +555,6 @@ function HomeContent() {
                 >
                   {item.label}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-aqua-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
-                </a>
-              ))}
-            </div>
-            
-            {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden text-white/80 hover:text-aqua-400 transition-colors p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-        
-        {/* Mobile Navigation Menu */}
-        <div className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-          mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}>
-          <div className="glass-dark border-t border-aqua-500/20 px-4 py-4">
-            <div className="flex flex-col space-y-4">
-              {[
-                { key: "home", label: t.nav.home },
-                { key: "about", label: t.nav.about },
-                { key: "skills", label: t.nav.skills },
-                { key: "projects", label: t.nav.projects },
-                { key: "testimonials", label: t.nav.testimonials },
-                { key: "education", label: t.nav.education },
-                { key: "contact", label: t.nav.contact }
-              ].map((item, index) => (
-                <a 
-                  key={item.key}
-                  href={`#${item.key}`} 
-                  className="text-white/80 hover:text-aqua-400 transition-all duration-300 py-2 px-4 rounded-lg hover:bg-white/5 block"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
                 </a>
               ))}
             </div>
@@ -1029,39 +1119,15 @@ function HomeContent() {
                   <p className="text-white/80 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                    {project.tech.map((tech, techIndex) => (
-                      <span key={techIndex} className="bg-white/10 text-white/90 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm border border-white/20 hover:border-cyan-400/50 transition-colors">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
                   <div className="flex flex-wrap gap-2 sm:gap-3">
                     {project.links.website && (
                       <Link 
                         href={project.links.website} 
                         target="_blank"
-                        className="bg-gradient-to-r from-aqua-500 to-teal-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover-glow"
+                        className="bg-gradient-to-r from-aqua-500 to-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-aqua-500/50 flex items-center gap-2"
                       >
                         {t.projects.buttons.demo}
-                      </Link>
-                    )}
-                    {project.links.seller && (
-                      <Link 
-                        href={project.links.seller} 
-                        target="_blank"
-                        className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover-glow"
-                      >
-                        {t.projects.buttons.seller}
-                      </Link>
-                    )}
-                    {project.links.admin && (
-                      <Link 
-                        href={project.links.admin} 
-                        target="_blank"
-                        className="bg-gradient-to-r from-cyan-500 to-aqua-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover-glow"
-                      >
-                        {t.projects.buttons.admin}
+                        <span className="text-lg">→</span>
                       </Link>
                     )}
                   </div>
@@ -1460,6 +1526,18 @@ function HomeContent() {
                   </div>
                   
                   <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-white/70 text-xs sm:text-sm font-medium">{t.contact.form.phone}</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder={t.contact.form.placeholders.phone}
+                      className="w-full bg-white/5 border border-white/20 rounded-lg sm:rounded-xl px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-white/40 focus:border-aqua-500 focus:outline-none focus:ring-2 focus:ring-aqua-500/20 focus:bg-white/10 transition-all duration-300"
+                    />
+                  </div>
+                  
+                  <div className="space-y-1.5 sm:space-y-2">
                     <label className="text-white/70 text-xs sm:text-sm font-medium">{t.contact.form.projectDetails}</label>
                     <textarea
                       rows={5}
@@ -1565,31 +1643,31 @@ function HomeContent() {
       <footer className="bg-black/50 border-t border-white/10 py-8 sm:py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center">
-            <p className="text-white/60 mb-4">
+            <p className="text-white/60">
               {t.footer.copyright.replace('{year}', new Date().getFullYear().toString())}
             </p>
-            <div className={`flex flex-wrap justify-center gap-4 sm:gap-6 ${isRTL ? 'space-x-reverse' : ''}`}>
-              {[
-                { name: t.footer.social.github, key: 'github' },
-                { name: t.footer.social.linkedin, key: 'linkedin' },
-                { name: t.footer.social.twitter, key: 'twitter' },
-                { name: t.footer.social.instagram, key: 'instagram' }
-              ].map((social) => (
-                <a
-                  key={social.key}
-                  href="#"
-                  className="text-white/40 hover:text-aqua-400 transition-colors duration-300 hover:scale-110 transform"
-                >
-                  {social.name}
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </footer>
       
       {/* Language Switcher */}
       <LanguageSwitcher />
+
+      {/* Scroll to Top Button */}
+      {isScrolled && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-24 right-6 z-50 group glass p-4 rounded-xl border border-aqua-500/40 hover:border-aqua-500/60 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-aqua-500/30 backdrop-blur-md animate-fade-in-up"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp 
+            size={22} 
+            className="text-aqua-400 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1" 
+          />
+          {/* Animated gradient border on hover */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-aqua-500 via-teal-500 to-aqua-500 opacity-0 group-hover:opacity-30 transition-opacity duration-300 -z-10 blur-sm"></div>
+        </button>
+      )}
 
       {/* Modern Modal for Success/Error */}
       {showModal && (
@@ -1611,7 +1689,13 @@ function HomeContent() {
           >
             {/* Close Button */}
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => {
+                setShowModal(false);
+                if (modalType === 'success') {
+                  // Scroll to top smoothly
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
               className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300 group"
             >
               <X size={16} className="sm:w-[18px] sm:h-[18px] text-white/70 group-hover:text-white transition-colors" />
@@ -1658,7 +1742,13 @@ function HomeContent() {
 
             {/* Button */}
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => {
+                setShowModal(false);
+                if (modalType === 'success') {
+                  // Scroll to top smoothly
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
               className={`w-full py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold text-white text-sm sm:text-base transition-all duration-300 hover:scale-105 hover:shadow-lg ${
                 modalType === 'success' 
                   ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500' 

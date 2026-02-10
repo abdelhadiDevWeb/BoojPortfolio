@@ -236,6 +236,7 @@ export interface Translation {
       title: string;
       name: string;
       email: string;
+      phone: string;
       projectType: string;
       projectDetails: string;
       projectTypeOptions: {
@@ -248,6 +249,7 @@ export interface Translation {
       placeholders: {
         name: string;
         email: string;
+        phone: string;
         details: string;
       };
       button: string;
@@ -517,6 +519,7 @@ export const translations: Record<string, Translation> = {
         title: "Send Message",
         name: "Your Name",
         email: "Email Address",
+        phone: "Phone Number",
         projectType: "Project Type",
         projectDetails: "Project Details",
         projectTypeOptions: {
@@ -529,6 +532,7 @@ export const translations: Record<string, Translation> = {
         placeholders: {
           name: "John Doe",
           email: "john@example.com",
+          phone: "+1234567890",
           details: "Tell me about your project, goals, timeline, and any specific requirements..."
         },
         button: "Send Message"
@@ -792,6 +796,7 @@ export const translations: Record<string, Translation> = {
         title: "Envoyer Message",
         name: "Votre Nom",
         email: "Adresse Email",
+        phone: "Numéro de Téléphone",
         projectType: "Type de Projet",
         projectDetails: "Détails du Projet",
         projectTypeOptions: {
@@ -804,6 +809,7 @@ export const translations: Record<string, Translation> = {
         placeholders: {
           name: "Jean Dupont",
           email: "jean@exemple.com",
+          phone: "+33123456789",
           details: "Parlez-moi de votre projet, objectifs, délais et exigences spécifiques..."
         },
         button: "Envoyer Message"
@@ -1067,6 +1073,7 @@ export const translations: Record<string, Translation> = {
         title: "إرسال رسالة",
         name: "اسمك",
         email: "عنوان البريد الإلكتروني",
+        phone: "رقم الهاتف",
         projectType: "نوع المشروع",
         projectDetails: "تفاصيل المشروع",
         projectTypeOptions: {
@@ -1079,6 +1086,7 @@ export const translations: Record<string, Translation> = {
         placeholders: {
           name: "أحمد محمد",
           email: "ahmed@example.com",
+          phone: "+212612345678",
           details: "أخبرني عن مشروعك، الأهداف، الجدول الزمني، وأي متطلبات خاصة..."
         },
         button: "إرسال رسالة"
