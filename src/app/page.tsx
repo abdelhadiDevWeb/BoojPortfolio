@@ -37,7 +37,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function HomeContent() {
   const { t, isRTL } = useLanguage();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [skillsVisible, setSkillsVisible] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -53,6 +53,7 @@ function HomeContent() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error'>('success');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showMobileHeader, setShowMobileHeader] = useState(true);
 
   const skills = {
     frontend: [
@@ -137,7 +138,7 @@ function HomeContent() {
   ];
 
   useEffect(() => {
-    setIsVisible(true);
+    // Animation already starts immediately with isVisible = true
 
     // Advanced Mouse tracking
     const handleMouseMove = (e: MouseEvent) => {
@@ -219,9 +220,31 @@ function HomeContent() {
   useEffect(() => {
     setMounted(true);
     
-    // Handle scroll to show header background
+    let lastScrollY = 0;
+    
+    // Handle scroll to show header background and hide/show mobile header
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 50);
+      
+      // For mobile/tablet: hide header when scrolling down, show when scrolling up or at top
+      if (window.innerWidth < 1024) { // lg breakpoint
+        if (currentScrollY < 10) {
+          // At the top, always show
+          setShowMobileHeader(true);
+        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and past 100px, hide header
+          setShowMobileHeader(false);
+        } else if (currentScrollY < lastScrollY) {
+          // Scrolling up, show header
+          setShowMobileHeader(true);
+        }
+      } else {
+        // Desktop: always show
+        setShowMobileHeader(true);
+      }
+      
+      lastScrollY = currentScrollY;
     };
     
     window.addEventListener('scroll', handleScroll);
@@ -467,7 +490,9 @@ function HomeContent() {
                     <div className="fixed inset-0 bg-gradient-to-tr from-transparent via-teal-900/10 to-aqua-900/20 animate-gradient z-0"></div>
 
       {/* Mobile/Tablet Navigation - Always Visible */}
-      <nav className="lg:hidden fixed top-0 w-full z-50">
+      <nav className={`lg:hidden fixed top-0 w-full z-50 transition-transform duration-300 ${
+        showMobileHeader ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center">
             {/* Logo/Name */}
@@ -490,16 +515,6 @@ function HomeContent() {
           mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="glass-dark border-t border-aqua-500/20 px-4 py-4">
-            {/* Icon at top of menu */}
-            <div className="flex justify-center mb-4 pb-4 border-b border-aqua-500/20">
-              <Image
-                src="/Code1.png"
-                alt="Code Icon"
-                width={40}
-                height={40}
-                className="w-10 h-10 object-contain"
-              />
-            </div>
             <div className="flex flex-col space-y-3">
               {[
                 { key: "home", label: t.nav.home },
@@ -523,7 +538,7 @@ function HomeContent() {
           </div>
         </div>
       </nav>
-
+        
       {/* Desktop Navigation - Always Visible */}
       <nav className={`hidden lg:block fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled ? 'bg-black backdrop-blur-sm lg:shadow-[0_4px_20px_rgba(6,182,212,0.3)]' : ''
@@ -568,7 +583,7 @@ function HomeContent() {
           <div className={`space-y-6 sm:space-y-8 lg:space-y-12 text-center lg:text-left ${isVisible ? 'animate-slide-in-left' : 'opacity-0'}`}>
             <div className="space-y-6">
               <div className="overflow-hidden mt-4 sm:mt-6">
-                <p className="text-aqua-400 text-xl animate-text-reveal-up inline-block" style={{ animationDelay: '0.2s' }}>
+                <p className="text-aqua-400 text-xl animate-text-reveal-up inline-block" style={{ animationDelay: '0s' }}>
                   {t.hero.greeting}
                 </p>
               </div>
@@ -576,7 +591,7 @@ function HomeContent() {
               <div className="space-y-2 sm:space-y-4">
                 <div className="overflow-hidden">
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
-                    <span className="block w-full text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-400 sm:w-auto animate-title-reveal" style={{ animationDelay: '0.3s' }}>
+                    <span className="block w-full text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 via-teal-500 to-cyan-400 sm:w-auto animate-title-reveal" style={{ animationDelay: '0.1s' }}>
                        {t.personal.name}
                     </span>
                   </h1>
@@ -586,7 +601,7 @@ function HomeContent() {
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
                     <span
                       className="inline-block min-w-[12ch] text-white animate-write-erase"
-                      style={{ animationDelay: '.5s' }}
+                      style={{ animationDelay: '0.2s' }}
                     >
                     {t.personal.surname}
                     </span>
@@ -596,29 +611,29 @@ function HomeContent() {
               
               <div className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-white/90 space-y-3 sm:space-y-4">
                 <div className="overflow-hidden">
-                  <p className="animate-word-slide" style={{ animationDelay: '2.5s' }}>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500 inline-block" style={{ animationDelay: '3s' }}>
+                  <p className="animate-word-slide" style={{ animationDelay: '0.3s' }}>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500 inline-block" style={{ animationDelay: '0.3s' }}>
                       {t.hero.title}
                     </span>
                   </p>
                 </div>
                 
                 <div className="overflow-hidden">
-                  <p className="text-base sm:text-lg lg:text-lg animate-text-reveal-up" style={{ animationDelay: '3.2s' }}>
+                  <p className="text-base sm:text-lg lg:text-lg animate-text-reveal-up" style={{ animationDelay: '0.4s' }}>
                     {t.hero.subtitle}
                   </p>
                 </div>
                 
                 {/* Description text without animation */}
                 <div className="overflow-hidden">
-                  <p className="text-sm sm:text-base lg:text-base text-aqua-300" style={{ animationDelay: '4s' }}>
+                  <p className="text-sm sm:text-base lg:text-base text-aqua-300" style={{ animationDelay: '0.5s' }}>
                     {t.hero.description}
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 animate-fade-in-up ${isRTL ? 'sm:flex-row-reverse' : ''} justify-center lg:justify-start`} style={{ animationDelay: '4.5s' }}>
+            <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 animate-fade-in-up ${isRTL ? 'sm:flex-row-reverse' : ''} justify-center lg:justify-start`} style={{ animationDelay: '0.6s' }}>
               <a 
                 href="#projects" 
                 className="group relative bg-gradient-to-r from-aqua-500 to-teal-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover-glow overflow-hidden magnetic text-center text-sm sm:text-base"
@@ -634,7 +649,7 @@ function HomeContent() {
               </a>
             </div>
 
-            <div className={`grid grid-cols-3 gap-4 sm:flex sm:items-center ${isRTL ? 'sm:space-x-reverse' : ''} sm:space-x-6 lg:space-x-8 animate-fade-in-up justify-center lg:justify-start`} style={{ animationDelay: '5s' }}>
+            <div className={`grid grid-cols-3 gap-4 sm:flex sm:items-center ${isRTL ? 'sm:space-x-reverse' : ''} sm:space-x-6 lg:space-x-8 animate-fade-in-up justify-center lg:justify-start`} style={{ animationDelay: '0.7s' }}>
               <div className="text-center">
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-400 to-teal-500">+ 2</div>
                 <div className="text-white/60 text-xs sm:text-sm">{t.hero.stats.experience}</div>
@@ -650,7 +665,7 @@ function HomeContent() {
             </div>
           </div>
 
-          <div className={`relative order-first lg:order-last mt-8 sm:mt-12 lg:mt-16 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
+          <div className={`relative order-first lg:order-last mt-8 sm:mt-12 lg:mt-16 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`} style={{ animationDelay: '0.1s' }}>
             <div className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto group">
               {/* Orbiting decorative elements */}
               <div className="absolute inset-0">
@@ -672,23 +687,23 @@ function HomeContent() {
                 <div className="absolute inset-0 bg-gradient-to-br from-aqua-400 via-teal-500 to-cyan-500 rounded-full animate-pulse-glow opacity-30 blur-xl"></div>
                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-purple-500 to-aqua-400 rounded-full opacity-20 blur-2xl animate-spin-slow"></div>
                 
-                
+                  
                 {/* Image */}
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
-                  <Image
-                    src="/booj.jpg"
-                    alt="Abdelhadi boudjemline"
-                    width={400}
-                    height={400}
+                    <Image
+                      src="/booj.jpg"
+                      alt="Abdelhadi boudjemline"
+                      width={400}
+                      height={400}
                     className="object-cover w-full h-full rounded-full animate-image-breath hover:scale-110 filter hover:brightness-110 hover:contrast-110 transition-all duration-700"
-                    priority
-                  />
-                  
+                      priority
+                    />
+                    
                   
                   {/* Radial gradient overlay */}
                   <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
                 </div>
-                
+                    
                 {/* Rotating border accent */}
                 <div className="absolute inset-0 rounded-full overflow-hidden">
                   <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-aqua-400 border-r-teal-400 border-b-cyan-400 border-l-purple-400 animate-spin-slow opacity-60"></div>
@@ -892,7 +907,7 @@ function HomeContent() {
                         <div className="flex-1 min-w-0">
                           <h4 className="font-bold text-white text-base sm:text-lg mb-1 group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.title}</h4>
                           <p className="text-teal-400 font-medium mb-2 text-sm sm:text-base group-hover/timeline:text-teal-300 transition-colors duration-300">{t.about.journey.freelance.company}</p>
-                        </div>
+                  </div>
                         <div className="px-2 sm:px-3 py-1 bg-teal-500/20 rounded-full border border-teal-500/30 group-hover/timeline:bg-teal-500/30 group-hover/timeline:border-teal-500/50 transition-all duration-300 flex-shrink-0">
                           <span className="text-teal-300 text-xs font-semibold whitespace-nowrap">Active</span>
                         </div>
@@ -1565,8 +1580,8 @@ function HomeContent() {
                       ) : (
                         <>
                           <Mail size={18} className="sm:w-5 sm:h-5" />
-                          {t.contact.form.button}
-                          <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                      {t.contact.form.button}
+                      <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                         </>
                       )}
                     </span>
